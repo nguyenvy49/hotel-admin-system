@@ -1,0 +1,41 @@
+:root{
+  --primary:#0d6efd;
+  --muted:#6c757d;
+  --bg:#fbf9f6; /* be nhẹ */
+}
+
+body{
+  background: var(--bg);
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  color: #212529;
+}
+
+.table thead th{
+  background: #fff;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.card{
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(17,24,39,0.06);
+  transition: transform .18s ease, box-shadow .18s ease;
+  background: #fff;
+}
+
+.card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(17,24,39,0.08);
+}
+
+.btn{
+  border-radius: 8px;
+}
+
+/* DataTable small padding */
+table.dataTable tbody th, table.dataTable tbody td {
+  padding: 10px 12px;
+}
+
+/* Badge styles */
+.badge-active { background: #28a745; color: #fff; }
+.badge-locked { background: #dc3545; color: #fff; }
