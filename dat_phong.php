@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Booking</title>
+  <link rel="stylesheet" href="book.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+  <!-- ================= HEADER ================= -->
+  <header class="main-header">
+    <div class="header-left">
+      <button class="menu-toggle" aria-label="Menu" onclick="toggleMenu()">☰</button>
+    </div>
+    <div class="logo-container">
+      <h1 class="logo-text">Prestige Manor</h1>
+    </div>
+  </header>
+
+  <!-- ================= SIDEBAR ================= -->
+  <div id="mySidebar" class="sidebar">
+    <a href="trangchu2.php">HOME</a>
+    <a href="gioithieuphong.php">ACCOMMODATION</a>
+    <a href="dat_phong.php">BOOKING</a>
+    <a href="gioithieudichvu.php">SERVICES</a>
+    <a href="lienhe.php">CONTACT US</a>
+    <a href="login.php">LOGIN</a>
+    <a href="dangki.php">SIGN IN</a>
+  </div>
+  <!-- ================= BOOKING BAR ================= -->
+  <div class="booking-bar-wrapper">
+    <div class="booking-bar">
+      <div class="booking-item online-info">
+        <p class="label">BOOK ONLINE</p>
+        <p class="guarantee">Guaranteed accommodation</p>
+      </div>
+
+      <div class="booking-item date-input">
+        <p class="label">CHECK-IN</p>
+        <div class="input-field">
+          <input type="text" id="checkin" placeholder="Select date">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+      </div>
+
+      <div class="booking-item date-input">
+        <p class="label">CHECK-OUT</p>
+        <div class="input-field">
+          <input type="text" id="checkout" placeholder="Select date">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+      </div>
+
+      <!-- Guests dropdown -->
+      <div class="guests-dropdown">
+        <label class="field-label">GUESTS</label>
+        <div class="guests-wrapper">
+          <div class="guests-display" id="guestBox">2 Adults, 0 Children</div>
+
+          <!-- Popup -->
+          <div class="guests-popup" id="guestsPopup" style="display:none;">
+            <div class="room">
+              <div class="room-header">
+                <span>Room 1</span>
+              </div>
+              <div class="controls">
+                <div class="control">
+                  <label>Adults</label>
+                  <button class="minus">-</button>
+                  <span class="count">2</span>
+                  <button class="plus">+</button>
+                </div>
+                <div class="control">
+                  <label>Children</label>
+                  <button class="minus">-</button>
+                  <span class="count">0</span>
+                  <button class="plus">+</button>
+                </div>
+                <div class="control">
+                  <label>Type Room</label>
+                  <select class="room-type">
+                    <option value="Single Room">Single Room</option>
+                    <option value="Twin Room">Twin Room</option>
+                    <option value="VIP Room">VIP Room</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <button class="add-room" id="addRoomBtn">+ ADD A ROOM</button>
+            <button class="done" id="doneBtn">DONE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="select">
+    <h2>Select a Room</h2>
+  </section>
+
+  <!-- ================ROOM OPTION================ -->
+  <section class="card">
+    <div class="left"><img src="single.jpg"></div>
+    <div class="right">
+      <h2>Single Room</h2>
+      <p>👥 Up to 2 Guests</p>
+      <p>📐 20 m²</p>
+      <p>🌐 Wi-Fi</p>
+      <p>❄ Air conditioning</p>
+      <div class="bottom">
+        <p class="price">1.399.000 VND</p>
+        <button class="select-btn" data-room-type="Single Room" data-price="1399000"
+          onclick="selectRoom(this)">Select</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="left"><img src="double.jpg"></div>
+    <div class="right">
+      <h2>Twin Room</h2>
+      <p>👥 Up to 4 Guests</p>
+      <p>📐 25 m²</p>
+      <p>🌐 Wi-Fi</p>
+      <p>❄ Air conditioning</p>
+      <div class="bottom">
+        <p class="price">1.699.000 VND</p>
+        <button class="select-btn" data-room-type="Twin Room" data-price="1699000"
+          onclick="selectRoom(this)">Select</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="left"><img src="vip.jpg"></div>
+    <div class="right">
+      <h2>VIP Room</h2>
+      <p>👥 Up to 2 Guests</p>
+      <p>📐 25 m²</p>
+      <p>🌐 Wi-Fi</p>
+      <p>❄ Air conditioning</p>
+      <div class="bottom">
+        <p class="price">2.199.000 VND</p>
+        <button class="select-btn" data-room-type="VIP Room" data-price="2199000"
+          onclick="selectRoom(this)">Select</button>
+      </div>
+    </div>
+  </section>
+  <!--================ MINI BILL POPUP==================== -->
+  <div class="bill-popup" id="billSection" style="display: none;">
+    <h3>Your Bill</h3>
+    <div id="billList"></div>
+    <p><strong>Total:</strong> <span id="totalPrice">0 VND</span></p>
+    <button id="continueBtn">Continue Add Service</button>
+  </div>
+
+  <!--==================FOOTER===================-->
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="brand">Prestige Manor</p>
+    </div>
+    <div class="footer-middle">
+       <ul>
+        <li><a href="trangchu2.php">▶ Home</a></li>
+        <li><a href="gioithieuphong.php">▶ Accommodation</a></li>
+        <li><a href="dat_phong.php">▶ Book Direct</a></li>
+        <li><a href="nhahang.php">▶ PM Restaurant</a></li>
+        <li><a href="spa.php">▶ PM Spa</a></li>
+      </ul>
+    </div>
+    <div class="footer-right">
+      <h3>CONTACT US</h3>
+      <p>▶ Hotline/Zalo: +84 94271</p>
+      <p>▶ Location: Quy Nhon</p>
+    </div>
+  </footer>
+  <!--==============SCRIPT====================-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="guest.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>

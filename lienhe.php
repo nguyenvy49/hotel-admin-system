@@ -1,0 +1,132 @@
+<?php
+session_start(); // bắt buộc để đọc session
+include 'config.php';
+// Lấy GET
+$checkin = $_POST['checkin'] ?? date('Y-m-d');
+$checkout = $_POST['checkout'] ?? date('Y-m-d', strtotime('+1 day'));
+$guests = isset($_POST['guests']) ? (int)$_POST['guests'] : 1;
+$total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Contact Us</title>
+  <link rel="stylesheet" href="contact.css">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+  <!-- ================= HEADER ================= -->
+  <header class="main-header">
+    <div class="header-left">
+      <button class="menu-toggle" aria-label="Menu" onclick="toggleMenu()">☰</button>
+    </div>
+    <div class="logo-container">
+      <h1 class="logo-text">Prestige Manor</h1>
+    </div>
+    <div class="header-right">
+      <a href="dangky.html" class="book-direct">BOOK DIRECT</a>
+    </div>
+  </header>
+
+  <!-- ================= SIDEBAR ================= -->
+  <div id="mySidebar" class="sidebar">
+    <a href="trangchu2.php">HOME</a>
+    <a href="gioithieuphong.php">ACCOMMODATION</a>
+    <a href="dat_phong.php">BOOKING</a>
+    <a href="gioithieudichvu.php">SERVICES</a>
+    <a href="lienhe.php">CONTACT US</a>
+    <a href="login.php">LOGIN</a>
+    <a href="dangki.php">SIGN IN</a>
+  </div>
+
+  <!-- ================= BOOKING BAR ================= -->
+  <div class="booking-bar-wrapper">
+    <div class="booking-bar">
+      <div class="booking-item online-info">
+        <p class="label">BOOK ONLINE</p>
+        <p class="guarantee">Guaranteed accommodation</p>
+      </div>
+
+      <div class="booking-item date-input">
+        <p class="label">CHECK-IN</p>
+        <div class="input-field">
+          <input type="text" id="checkin" placeholder="Select date" value="<?= htmlspecialchars($checkin) ?>">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+      </div>
+
+      <div class="booking-item date-input">
+        <p class="label">CHECK-OUT</p>
+        <div class="input-field">
+          <input type="text" id="checkout" placeholder="Select date" value="<?= htmlspecialchars($checkout) ?>">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+      </div>
+      
+      <a href="dat_phong.php">
+      <button class="find-room-btn">FIND ROOM</button></a>
+    </div>
+  </div>
+
+  <!-- ==================BANNER======================= -->
+  <section class="contact-banner">
+  </section>
+
+  <!-- Map -->
+  <section class="map">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1531.9615539988283!2d109.21921440765162!3d13.761419046135368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x316f6cecf80ecc6f%3A0x3c5a245002730526!2zMSBOZ8O0IE3DonksIE5ndXnhu4VuIFbEg24gQ-G7qywgUXV5IE5oxqFuLCBCw6xuaCDEkOG7i25oIDU1MDAwLCBWaeG7h3QgTmFt!5e1!3m2!1svi!2s!4v1759132762937!5m2!1svi!2s"
+      width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+  </section>
+
+  <!-- ===========FAQ========== -->
+  <section class="faq">
+    <h2>Information Questions</h2>
+    <details>
+      <summary>Does Hotel Prestige Manor offer airport transfer services?</summary>
+      <p>Yes, Hotel Prestige Manor provides convenient transportation to and from Phu Cat Airport. Our reliable airport
+        pick-up and drop-off service can be arranged prior to your arrival or departure for a smooth start and to your
+        stay in Quy Nhon.</p>
+    </details>
+    <details>
+      <summary>How can I make a room reservation at Hotel Prestige Manor?</summary>
+      <p>You can book directly on our website, via Zalo at +8494271, or through platforms like websites.</p>
+    </details>
+  </section>
+
+  <!--===========================FOOTER================= -->
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="brand">Prestige Manor</p>
+    </div>
+    <div class="footer-middle">
+      <ul>
+        <li><a href="trangchu2.php">▶ Home</a></li>
+        <li><a href="gioithieuphong.php">▶ Accommodation</a></li>
+        <li><a href="dat_phong.php">▶ Book Direct</a></li>
+        <li><a href="nhahang.php">▶ PM Restaurant</a></li>
+        <li><a href="spa.php">▶ PM Spa</a></li>
+      </ul>
+    </div>
+    <div class="footer-right">
+      <h3>CONTACT US</h3>
+      <p>▶ Hotline/Zalo: +84 94271</p>
+      <p>▶ Location: Quy Nhon</p>
+    </div>
+  </footer>
+  <!-- ================= SCRIPT ================= -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="guest.js">
+  </script>
+</body>
+
+</html>

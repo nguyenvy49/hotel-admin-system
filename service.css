@@ -1,0 +1,715 @@
+/* Thiết lập màu sắc và font chữ */
+:root {
+  --primary-color: #A9A48F;
+  /* Màu xanh ô liu / be */
+  --background-color: #EFEBE0;
+  /* Màu nền cho thanh đặt phòng */
+  --light-bg-color: #E6E1D1;
+  /* Màu be nhạt cho các nút và hình tròn */
+  --accent-color: #1a1a1a;
+  /* Màu chữ chính */
+  --light-green: #e9f5e1;
+  /* Màu xanh nhạt cho hình tròn phòng */
+  --light-yellow: #f5f5e1;
+  /* Màu vàng nhạt cho hình tròn phòng */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  color: var(--accent-color);
+  background-color: #fff;
+}
+
+/* -------------------- 1. HEADER VÀ LOGO -------------------- */
+/* Header chính */
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* căn đều hai đầu */
+  color: white;
+  padding: 15px 30px;
+  position: relative;
+}
+
+/* Nút menu 3 gạch */
+.menu-toggle {
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* Logo căn giữa tuyệt đối */
+.logo-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.logo-text {
+  font-family: "Playfair Display", serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+
+.menu-toggle {
+  background: none;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  color: var(--accent-color);
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 2000;
+}
+
+
+/* Hiệu ứng xoay nhẹ khi mở */
+.menu-toggle.active {
+  transform: rotate(90deg);
+}
+
+.book-direct {
+  text-decoration: none;
+  color: var(--accent-color);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+/* --- Logo --- */
+.logo-text {
+  font-family: 'Dancing Script', cursive;
+  font-size: 32px;
+  font-weight: 400;
+  margin-top: 5px;
+  letter-spacing: 1px;
+  color: var(--accent-color);
+}
+
+/* -------------------- 2. BOOKING BAR -------------------- */
+.booking-bar-wrapper {
+  background-color: var(--background-color);
+  padding: 20px 30px;
+}
+
+.booking-bar {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 15px;
+}
+
+.booking-item {
+  padding: 0;
+  flex-grow: 1;
+  min-width: 150px;
+}
+
+.online-info {
+  flex-grow: 0;
+  min-width: 180px;
+}
+
+.booking-item .label {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  margin-bottom: 5px;
+}
+
+.online-info .guarantee {
+  font-size: 14px;
+  color: var(--accent-color);
+}
+
+.input-field i {
+  color: var(--primary-color);
+  font-size: 18px;
+}
+/*-------Ô LỊCH -----------*/
+.input-field {
+  position: relative;
+  width: 100%;
+  background: none; 
+  border: none;     
+  padding: 0;       
+}
+
+.input-field input[type="text"],
+.input-field input[type="date"] {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 0; /* ô vuông */
+  padding: 8px 36px 8px 12px;
+  font-size: 14px;
+  color: var(--accent-color);
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.input-field i {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary-color);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.find-room-btn {
+  flex-grow: 0;
+  background-color: var(--primary-color);
+  color: white;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  height: 40px;
+  min-width: 150px;
+}
+
+
+/* -------------------- SIDEBAR -------------------- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 220px;
+  height: 100%;
+  background: #A9A48F;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px;
+  transition: left 0.35s ease;
+  z-index: 999;
+}
+
+.sidebar a {
+  color: #fff;
+  padding: 15px 20px;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+}
+
+.sidebar a:hover {
+  background-color: #A9A48F;
+}
+
+.sidebar.active {
+  left: 0;
+}
+
+/* ----------------------- GUESTS BOX ---------------------- */
+.guests-dropdown {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+}
+
+.guests-dropdown .field-label {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  margin-bottom: 5px;
+}
+
+.guests-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.guests-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 10px 15px;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  height: 40px;
+  cursor: pointer;
+  color: var(--accent-color);
+  font-size: 14px;
+}
+
+/* Popup giữ nguyên */
+.guests-popup {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  padding: 15px;
+  z-index: 1000;
+  min-width: 280px;
+}
+
+.room {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.control button {
+  padding: 4px 10px;
+  background: #f2f2f2;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  color: black;
+}
+
+.add-room,
+.done {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.add-room {
+  background: #f2f2f2;
+  color: black;
+}
+
+.done {
+  background: #A9A48F;
+  color: #fff;
+}
+
+/* Style cho nút xóa phòng */
+.delete-room {
+  background: none;
+  border: none;
+  color: black;
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.delete-room:hover {
+  color: black;
+}
+
+.room-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Căn giữa Extra Services */
+.select h2 {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* ------------------- PICK-UP SERVICE ------------------- */
+.extra-service {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  max-width: 900px;
+  margin: 20px auto;
+  gap: 20px;
+}
+
+.extra-service img {
+  width: 140px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.service-info {
+  flex: 1;
+}
+
+.service-info h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+}
+
+.service-info p {
+  margin-top: 8px;
+  font-size: 15px;
+  color: #555;
+}
+
+.offer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+}
+
+.service-btn {
+  background: #6b6b50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.service-btn:hover {
+  background: #4e4a2f;
+}
+
+/* ----------------- BẢNG DỊCH VỤ --------------- */
+.service-table {
+  max-width: 900px;
+  margin: 30px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.service-table h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Mỗi dịch vụ */
+.service-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.service-row:last-child {
+  border-bottom: none;
+}
+
+/* Ảnh minh họa */
+.service-image {
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.service-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* -------------NỘI DUNG DỊCH VỤ------------------ */
+.service-info {
+  flex: 1;
+}
+
+.service-info h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #222;
+}
+
+/* Giá */
+.service-price {
+  font-weight: bold;
+  font-size: 16px;
+  color: #000;
+  margin-right: 10px;
+}
+
+/* Nút ADD */
+button.service-btn {
+  background: #6b6b50;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button.service-btn:hover {
+  background: #6b6b50;
+}
+
+
+/* Breakfast Offer */
+.food-service {
+  background: #fff;
+  border-radius: 16px;
+  padding: 25px;
+  margin: 30px auto;
+  max-width: 900px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.food-service {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #222;
+}
+
+/* Row bên trong */
+.food-service .service-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-top: 1px solid #eee;
+}
+
+.food-service .service-row:first-child {
+  border-top: none;
+}
+
+.service-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  /* Cắt phần thừa để ảnh luôn khít */
+  flex-shrink: 0;
+  /* Không bị co khi flex */
+}
+
+.service-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Fill kín khung, crop ảnh */
+  display: block;
+}
+
+.food-service .service-info h3 {
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.food-service .service-price {
+  flex: 1;
+}
+
+/* Nút service */
+.food-service .service-btn {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  background: #6b6b50;
+  color: #fff;
+  cursor: default;
+}
+
+/*------------------BILL-------------*/
+/*----------- BILL (chat-style) -----------*/
+.bill-toggle {
+  position: fixed;
+  right: 20px;
+  bottom: 25px;
+  background: #6b6b50;
+  color: #fff;
+  font-size: 20px;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  cursor: pointer;
+  z-index: 1200;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.bill-toggle:hover {
+  background: #4e4a2f;
+  transform: scale(1.05);
+}
+
+/* Bill Box – MẶC ĐỊNH HIỆN */
+.bill {
+  position: fixed;
+  right: 25px;
+  bottom: 95px;
+  width: 280px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.4;
+  opacity: 1;                     /* ← mặc định HIỆN */
+  transform: translateY(0);        /* ← không lệch */
+  transition: all 0.3s ease;
+  pointer-events: all;             /* ← cho phép thao tác */
+  z-index: 1100;
+}
+
+/* Trạng thái THU GỌN */
+.bill.collapsed {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+.bill h3 {
+  margin-bottom: 8px;
+  font-size: 15px;
+  color: #5c4c35;
+  text-align: center;
+}
+
+.bill-items p {
+  margin-bottom: 5px;
+}
+
+.bill li {
+  font-size: 14px;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.discount {
+  margin-top: 6px;
+  color: #c00;
+  font-weight: bold;
+  text-align: right;
+  font-size: 12px;
+}
+
+.total {
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: right;
+  color: #7c6029;
+}
+
+
+/* Button & Status */
+.book-btn {
+  background-color: #6b6b50;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  display: block;
+  margin: 15px auto;
+}
+
+.book-btn:hover {
+  background-color: #4e4a2f;
+}
+
+.booking-status {
+  text-align: center;
+  font-weight: bold;
+  color: #6b6b50;
+  margin-top: 10px;
+}
+
+/* -----------------FOOTER------------ */
+.footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 40px 60px;
+  background-color: #EFEBE0;
+  gap: 20px;
+}
+
+.footer-left .brand {
+  font-size: 26px;
+  font-family: "Great Vibes", cursive;
+  color: #444;
+}
+
+.footer-middle ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-middle ul li {
+  margin: 8px 0;
+}
+
+.footer-middle ul li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.footer-middle ul li a:hover {
+  color: #000000;
+}
+
+.footer-right h3 {
+  margin-bottom: 12px;
+  color: #333;
+}

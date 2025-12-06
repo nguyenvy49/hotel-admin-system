@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Booking</title>
+  <link rel="stylesheet" href="service.css">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+  <!-- ================= HEADER ================= -->
+  <header class="main-header">
+    <div class="header-left">
+      <button class="menu-toggle" aria-label="Menu" onclick="toggleMenu()">☰</button>
+    </div>
+    <div class="logo-container">
+      <h1 class="logo-text">Prestige Manor</h1>
+    </div>
+  </header>
+
+  <!-- ================= SIDEBAR ================= -->
+ <div id="mySidebar" class="sidebar">
+    <a href="trangchu2.php">HOME</a>
+    <a href="gioithieuphong.php">ACCOMMODATION</a>
+    <a href="dat_phong.php">BOOKING</a>
+    <a href="gioithieudichvu.php">SERVICES</a>
+    <a href="lienhe.php">CONTACT US</a>
+    <a href="login.php">LOGIN</a>
+    <a href="dangki.php">SIGN IN</a>
+  </div>
+
+  <!-- ================= BOOKING BAR ================= -->
+  <div class="booking-bar-wrapper">
+    <div class="booking-bar">
+      <div class="booking-item online-info">
+        <p class="label">BOOK ONLINE</p>
+        <p class="guarantee">Guaranteed accommodation</p>
+      </div>
+
+      <div class="booking-item date-input">
+        <p class="label">CHECK-IN</p>
+        <div class="input-field">
+          <input type="text" id="checkin" placeholder="Select date">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+      </div>
+
+      <div class="booking-item date-input">
+        <p class="label">CHECK-OUT</p>
+        <div class="input-field">
+          <input type="text" id="checkout" placeholder="Select date">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+      </div>
+
+      <!-- Guests dropdown -->
+      <div class="guests-dropdown">
+        <label class="field-label">GUESTS</label>
+        <div class="guests-wrapper">
+          <div class="guests-display" id="guestBox">2 Adults, 0 Children</div>
+
+          <!-- Popup -->
+          <div class="guests-popup" id="guestsPopup" style="display:none;">
+            <div class="room">
+              <div class="room-header">
+                <span>Room 1</span>
+              </div>
+              <div class="controls">
+                <div class="control">
+                  <label>Adults</label>
+                  <button class="minus">-</button>
+                  <span class="count">2</span>
+                  <button class="plus">+</button>
+                </div>
+                <div class="control">
+                  <label>Children</label>
+                  <button class="minus">-</button>
+                  <span class="count">0</span>
+                  <button class="plus">+</button>
+                </div>
+                <div class="control">
+                  <label>Type Room</label>
+                  <select class="room-type">
+                    <option value="Single Room">Single Room</option>
+                    <option value="Twin Room">Twin Room</option>
+                    <option value="VIP Room">VIP Room</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <button class="add-room" id="addRoomBtn">+ ADD A ROOM</button>
+            <button class="done" id="doneBtn">DONE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="select">
+    <h2>Extra Services</h2>
+  </section>
+
+  <!-- =================PICK-UP=============== -->
+  <div class="extra-service">
+    <img src="car.jpg" alt="Pick-up Service">
+    <div class="service-info">
+      <h3>Pick-up Service</h3>
+      <p>Luxury vehicle with chauffeur and full amenities</p>
+    </div>
+    <div class="offer-footer">
+      <p class="price">đ500.000</p>
+      <button class="service-btn" onclick="addService('Pick-up Service', 500000)">Add</button>
+    </div>
+  </div>
+
+  <!-- ==============SPA================== -->
+  <div class="service-table">
+    <h2>PM Spa</h2>
+    <div class="service-row">
+      <div class="service-image"><img src="body.jpg" alt="Massage Body"></div>
+      <div class="service-info">
+        <h3>Combo Massage</h3>
+      </div>
+      <div class="service-price">đ539.000</div>
+      <button class="service-btn" onclick="addService('Combo Massage', 539000)">Add</button>
+    </div>
+    <div class="service-row">
+      <div class="service-image"><img src="foot.jpg" alt="Foot Massage"></div>
+      <div class="service-info">
+        <h3>Foot Massage</h3>
+      </div>
+      <div class="service-price">đ199.000</div>
+      <button class="service-btn" onclick="addService('Foot Massage', 199000)">Add</button>
+    </div>
+    <div class="service-row">
+      <div class="service-image"><img src="acup.jpg" alt="Acupressure Massage"></div>
+      <div class="service-info">
+        <h3>Acupressure Massage</h3>
+      </div>
+      <div class="service-price">đ349.000</div>
+      <button class="service-btn" onclick="addService('Acupressure Massage', 349000)">Add</button>
+    </div>
+    <div class="service-row">
+      <div class="service-image"><img src="facial.jpg" alt="Facial Massage"></div>
+      <div class="service-info">
+        <h3>Facial Massage</h3>
+      </div>
+      <div class="service-price">đ299.000</div>
+      <button class="service-btn" onclick="addService('Facial Massage', 299000)">Add</button>
+    </div>
+    <div class="service-row">
+      <div class="service-image"><img src="her.jpg" alt="Herbal Hair Wash"></div>
+      <div class="service-info">
+        <h3>Herbal Hair Wash</h3>
+      </div>
+      <div class="service-price">đ239.000</div>
+      <button class="service-btn" onclick="addService('Herbal Hair Wash', 239000)">Add</button>
+    </div>
+    <div class="service-row">
+      <div class="service-image"><img src="neck.jpg" alt="Neck & Shoulder Massage"></div>
+      <div class="service-info">
+        <h3>Neck & Shoulder Massage</h3>
+      </div>
+      <div class="service-price">đ129.000</div>
+      <button class="service-btn" onclick="addService('Neck & Shoulder Massage', 129000)">Add</button>
+    </div>
+  </div>
+
+  <!--================= FOOD =====================-->
+  <div class="service-table food-service">
+    <h3>Food Service</h3>
+    <div class="service-row">
+      <div class="service-image"><img src="bre.jpg" alt="Breakfast"></div>
+      <div class="service-info">
+        <h3>Breakfast</h3>
+      </div>
+      <div class="service-price"></div>
+      <button class="service-btn" disabled>Service Included</button>
+    </div>
+  </div>
+
+  <!-- =================BILL=================== -->
+<div id="billToggle" class="bill-toggle">💬</div>
+
+<div class="bill" id="billContainer">
+  <h3>My Booking Bill</h3>
+  <div id="bill-items"></div>
+  <p id="roomPrice"></p>
+  <p id="servicesPrice"></p>
+  <p id="totalPrice"></p>
+  <button class="book-btn" onclick="window.location.href='thanhToan.php'">Book</button>
+</div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="footer-left">
+      <p class="brand">Prestige Manor</p>
+    </div>
+    <div class="footer-middle">
+      <ul>
+        <li><a href="trangchu2.php">▶ Home</a></li>
+        <li><a href="gioithieuphong.php">▶ Accommodation</a></li>
+        <li><a href="dat_phong.php">▶ Book Direct</a></li>
+        <li><a href="nhahang.php">▶ PM Restaurant</a></li>
+        <li><a href="spa.php">▶ PM Spa</a></li>
+      </ul>
+    </div>
+    <div class="footer-right">
+      <h3>CONTACT US</h3>
+      <p>▶ Hotline/Zalo: +84 94271</p>
+      <p>▶ Location: Quy Nhon</p>
+    </div>
+  </footer>
+  <!-- ===============SCRIPT===============-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="guest.js"></script>
+  <script src="script.js"></script>
+ <script> 
+ // =================== BILL TOGGLE CHAT ===================
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleBtn = document.getElementById("billToggle");
+  const billBox = document.getElementById("billContainer");
+
+  if (toggleBtn && billBox) {
+    toggleBtn.addEventListener("click", () => {
+      billBox.classList.toggle("collapsed");
+    });
+  }
+});
+
+</script>
+</body>
+</html>
