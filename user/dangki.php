@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Signin</title>
-    <link rel="stylesheet" href="signin.css">
+    <link rel="stylesheet" href="../assets/css/signin.css">
     <style>
         .alert { 
             padding: 10px; 
@@ -32,7 +32,7 @@
 </head>
 <body>
     <!-- Sidebar + Toggle menu -->
-<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+<!-- <button class="menu-toggle" onclick="toggleMenu()">☰</button>
 
 <div id="mySidebar" class="sidebar">
     <a href="trangchu2.php">HOME</a>
@@ -42,7 +42,7 @@
     <a href="lienhe.php">CONTACT US</a>
     <a href="login.php">LOGIN</a>
     <a href="dangki.php">SIGN IN</a>
-  </div>
+  </div> -->
 
 <!-- Nội dung chính giữ nguyên -->
 <div class="main-content">

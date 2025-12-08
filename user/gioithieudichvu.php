@@ -14,7 +14,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prestige Manor - Dịch vụ</title>
-    <link rel="stylesheet" href="trangchu.css">
+    <link rel="stylesheet" href="../assets/css/trangchu.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -36,7 +36,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
 <button class="menu-toggle" onclick="toggleMenu()">☰</button>
 
 <div id="mySidebar" class="sidebar">
-    <a href="trangchu2.php">HOME</a>
+    <a href="index.php">HOME</a>
     <a href="gioithieuphong.php">ACCOMMODATION</a>
     <a href="dat_phong.php">BOOKING</a>
     <a href="gioithieudichvu.php">SERVICES</a>
@@ -141,7 +141,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
 <!-- ==========CONTENT================-->
     <main class="services-content">
         <div class="services-hero-image">
-            <img src="dvu.jpg" alt="Prestige Manor Services Bar">
+            <img src="../assets/img/dvu.jpg" alt="Prestige Manor Services Bar">
             <div class="services-overlay">
             </div>
         </div>
@@ -168,28 +168,28 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
     <div class="gallery-container">
         <div class="service-item">
             <div class="service-image-wrapper">
-                <img src="spaa.jpg" alt="Spa Service">
+                <img src="../assets/img/spaa.jpg" alt="Spa Service">
             </div>
             <a href="spa.php" class="service-btn">SPA</a>
         </div>
 
         <div class="service-item">
             <div class="service-image-wrapper">
-                <img src="nhahang.jpg" alt="Restaurant Service">
+                <img src="../assets/img/nhahang.jpg" alt="Restaurant Service">
             </div>
             <a href="nhahang.php" class="service-btn">RESTAURANT</a>
         </div>
 
         <div class="service-item">
             <div class="service-image-wrapper">
-                <img src="oto.jpg" alt="Transportation Service">
+                <img src="../assets/img/oto.jpg" alt="Transportation Service">
             </div>
             <a href="car.html" class="service-btn">TRANSPORTATION</a>
         </div>
         
         <div class="service-item">
             <div class="service-image-wrapper">
-                <img src="bar.jpg" alt="Bar Service">
+                <img src="../assets/img/bar.jpg" alt="Bar Service">
             </div>
             <a href="bar.php" class="service-btn">BAR</a>
         </div>
@@ -206,7 +206,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
     </div>
     <div class="footer-middle">
        <ul>
-        <li><a href="trangchu2.php">▶ Home</a></li>
+        <li><a href="index.php">▶ Home</a></li>
         <li><a href="gioithieuphong.php">▶ Accommodation</a></li>
         <li><a href="dat_phong.php">▶ Book Direct</a></li>
         <li><a href="nhahang.php">▶ PM Restaurant</a></li>
@@ -223,7 +223,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
   <!-- ================= SCRIPT ================= -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="guest.js"></script>
+  <script src="../assets/js/guest.js"></script>
 </body>
 
 </html>
