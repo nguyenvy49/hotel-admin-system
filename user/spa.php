@@ -15,7 +15,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hotel Contact Us</title>
-  <link rel="stylesheet" href="spa.css">
+  <link rel="stylesheet" href="../assets/css/spa.css">
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -30,13 +30,13 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
       <h1 class="logo-text">Prestige Manor</h1>
     </div>
     <div class="header-right">
-      <a href="dangky.html" class="book-direct">BOOK DIRECT</a>
+      <a href="dat_phong.php" class="book-direct">BOOK DIRECT</a>
     </div>
   </header>
 
   <!-- ================= SIDEBAR ================= -->
   <div id="mySidebar" class="sidebar">
-    <a href="trangchu2.php">HOME</a>
+    <a href="index.php">HOME</a>
     <a href="gioithieuphong.php">ACCOMMODATION</a>
     <a href="dat_phong.php">BOOKING</a>
     <a href="gioithieudichvu.php">SERVICES</a>
@@ -94,7 +94,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
 <!--==================cÁC DỊCH VỤ===============-->
   <div class="services-grid">
     <div class="service-card">
-      <img src="body.jpg" alt="Combo Massage">
+      <img src="../assets/img/body.jpg" alt="Combo Massage">
       <div class="service-info">
         <div class="service-title">Combo Massage</div>
         <div class="service-price">539.000vnd</div>
@@ -102,7 +102,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
     </div>
 
     <div class="service-card">
-      <img src="foot.jpg" alt="Foot Massage">
+      <img src="../assets/img/foot.jpg" alt="Foot Massage">
       <div class="service-info">
         <div class="service-title">Foot Massage</div>
         <div class="service-price">199.000vnd</div>
@@ -110,7 +110,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
     </div>
 
     <div class="service-card">
-      <img src="acup.jpg" alt="Acupressure Massage">
+      <img src="../assets/img/acup.jpg" alt="Acupressure Massage">
       <div class="service-info">
         <div class="service-title">Acupressure massage</div>
         <div class="service-price">349.000vnd</div>
@@ -118,7 +118,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
     </div>
 
     <div class="service-card">
-      <img src="facial.jpg" alt="Facial Massage">
+      <img src="../assets/img/facial.jpg" alt="Facial Massage">
       <div class="service-info">
         <div class="service-title">Facial Massage</div>
         <div class="service-price">359.000vnd</div>
@@ -126,7 +126,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
     </div>
 
     <div class="service-card">
-      <img src="her.jpg" alt="Herbal hair wash">
+      <img src="../assets/img/her.jpg" alt="Herbal hair wash">
       <div class="service-info">
         <div class="service-title">Herbal therapeutic hair wash</div>
         <div class="service-price">239.000vnd</div>
@@ -134,7 +134,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
     </div>
 
     <div class="service-card">
-      <img src="neck.jpg" alt="Neck & Shoulder Massage">
+      <img src="../assets/img/neck.jpg" alt="Neck & Shoulder Massage">
       <div class="service-info">
         <div class="service-title">Neck & shoulder massage</div>
         <div class="service-price">129.000vnd</div>
@@ -148,7 +148,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
     </div>
     <div class="footer-middle">
        <ul>
-        <li><a href="trangchu2.php">▶ Home</a></li>
+        <li><a href="index.php">▶ Home</a></li>
         <li><a href="gioithieuphong.php">▶ Accommodation</a></li>
         <li><a href="dat_phong.php">▶ Book Direct</a></li>
         <li><a href="nhahang.php">▶ PM Restaurant</a></li>
@@ -164,7 +164,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
   <!--============SCRIPT=================-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="guest.js">
+  <script src="../assets/js/guest.js">
   </script>
 </body>
 

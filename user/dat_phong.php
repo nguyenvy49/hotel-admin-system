@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hotel Booking</title>
-  <link rel="stylesheet" href="book.css">
+  <link rel="stylesheet" href="../assets/css/book.css">
   <link
     href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Roboto:wght@400;700&display=swap"
     rel="stylesheet">
@@ -25,7 +25,7 @@
 
   <!-- ================= SIDEBAR ================= -->
   <div id="mySidebar" class="sidebar">
-    <a href="trangchu2.php">HOME</a>
+    <a href="index.php">HOME</a>
     <a href="gioithieuphong.php">ACCOMMODATION</a>
     <a href="dat_phong.php">BOOKING</a>
     <a href="gioithieudichvu.php">SERVICES</a>
@@ -105,7 +105,7 @@
 
   <!-- ================ROOM OPTION================ -->
   <section class="card">
-    <div class="left"><img src="single.jpg"></div>
+    <div class="left"><img src="../assets/img/single.jpg"></div>
     <div class="right">
       <h2>Single Room</h2>
       <p>👥 Up to 2 Guests</p>
@@ -121,7 +121,7 @@
   </section>
 
   <section class="card">
-    <div class="left"><img src="double.jpg"></div>
+    <div class="left"><img src="../assets/img/double.jpg"></div>
     <div class="right">
       <h2>Twin Room</h2>
       <p>👥 Up to 4 Guests</p>
@@ -137,7 +137,7 @@
   </section>
 
   <section class="card">
-    <div class="left"><img src="vip.jpg"></div>
+    <div class="left"><img src="../assets/img/vip.jpg"></div>
     <div class="right">
       <h2>VIP Room</h2>
       <p>👥 Up to 2 Guests</p>
@@ -166,7 +166,7 @@
     </div>
     <div class="footer-middle">
        <ul>
-        <li><a href="trangchu2.php">▶ Home</a></li>
+        <li><a href="index.php">▶ Home</a></li>
         <li><a href="gioithieuphong.php">▶ Accommodation</a></li>
         <li><a href="dat_phong.php">▶ Book Direct</a></li>
         <li><a href="nhahang.php">▶ PM Restaurant</a></li>
@@ -182,8 +182,8 @@
   <!--==============SCRIPT====================-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="guest.js"></script>
-  <script src="script.js"></script>
+  <script src="../assets/js/guest.js"></script>
+  <script src="../assets/js/script.js"></script>
 </body>
 
 </html>
