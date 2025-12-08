@@ -14,7 +14,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prestige Manor - Trải nghiệm sang trọng và thiên nhiên</title>
-    <link rel="stylesheet" href="gioithieuphong.css">
+    <link rel="stylesheet" href="../assets/css/gioithieuphong.css">
     
     <!-- Tải các Font sang trọng: Playfair Display, Cormorant Garamond, Dancing Script -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,700;1,700&display=swap" rel="stylesheet">
@@ -33,13 +33,13 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
       <h1 class="logo-text">Prestige Manor</h1>
     </div>
     <div class="header-right">
-      <a href="dangky.html" class="book-direct">BOOK DIRECT</a>
+      <a href="dat_phong.php" class="book-direct">BOOK DIRECT</a>
     </div>
   </header>
 
   <!-- ================= SIDEBAR ================= -->
  <div id="mySidebar" class="sidebar">
-    <a href="trangchu2.php">HOME</a>
+    <a href="index.php">HOME</a>
     <a href="gioithieuphong.php">ACCOMMODATION</a>
     <a href="dat_phong.php">BOOKING</a>
     <a href="gioithieudichvu.php">SERVICES</a>
@@ -80,7 +80,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
 
     <!-- MAIN IMAGE SECTION - Giữ nguyên -->
     <section class="main-image-section">
-        <img src="accomotion.jpg" onerror="this.src='accomotion.jpg';" alt="Outdoor Lounge Area at Prestige Manor" class="main-image">
+        <img src="../assets/img/accomotion.jpg" onerror="this.src='../assets/img/accomotion.jpg';" alt="Outdoor Lounge Area at Prestige Manor" class="main-image">
     </section>
     
     <!-- ROOM OPTIONS SECTION - Giữ nguyên các chỉnh sửa trước -->
@@ -95,7 +95,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
         <div class="room-gallery">
             <div class="room-detail-row">
                 <div class="room-image-wrap left-image">
-                    <img src="single.jpg" onerror="this.src='single.jpg';" alt="Single Room" class="room-image">
+                    <img src="../assets/img/single.jpg" onerror="this.src='../assets/img/single.jpg';" alt="Single Room" class="room-image">
                 </div>
                 <div class="room-info right-info">
                     <h3 class="room-name">Single Room</h3>
@@ -117,13 +117,13 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
                     <button class="check-price-btn">CHECK PRICE</button>
                 </div>
                 <div class="room-image-wrap right-image">
-                    <img src="double.jpg" onerror="this.src='double.jpg';" alt="Twin Room" class="room-image">
+                    <img src="../assets/img/double.jpg" onerror="this.src='../assets/img/double.jpg';" alt="Twin Room" class="room-image">
                 </div>
             </div>
 
             <div class="room-detail-row">
                 <div class="room-image-wrap left-image">
-                    <img src="vip.jpg" onerror="this.src='vip.jpg';" alt="VIP Room" class="room-image">
+                    <img src="../assets/img/vip.jpg" onerror="this.src='../assets/img/vip.jpg';" alt="VIP Room" class="room-image">
                 </div>
                 <div class="room-info right-info">
                     <h3 class="room-name">VIP Room</h3>
@@ -161,7 +161,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
   <!-- ================= SCRIPT ================= -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="guest.js"></script>
+  <script src="../assets/js/guest.js"></script>
 
 </body>
 </html>

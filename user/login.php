@@ -15,7 +15,7 @@ if (isset($_COOKIE['saved_emails'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hotel Login</title>
-  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="../assets/css/login.css">
   <style>
     .password-container {
       position: relative;
@@ -41,7 +41,7 @@ if (isset($_COOKIE['saved_emails'])) {
 <body>
 
   <!-- Sidebar + Toggle menu -->
-<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+<!-- <button class="menu-toggle" onclick="toggleMenu()">☰</button>
 
 <div id="mySidebar" class="sidebar">
     <a href="trangchu2.php">HOME</a>
@@ -51,7 +51,7 @@ if (isset($_COOKIE['saved_emails'])) {
     <a href="lienhe.php">CONTACT US</a>
     <a href="login.php">LOGIN</a>
     <a href="dangki.php">SIGN IN</a>
-  </div>
+  </div> -->
 
 <!-- Nội dung chính giữ nguyên -->
 <div class="main-content">

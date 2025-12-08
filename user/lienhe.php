@@ -15,7 +15,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hotel Contact Us</title>
-  <link rel="stylesheet" href="contact.css">
+  <link rel="stylesheet" href="../assets/css/contact.css">
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -30,13 +30,13 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
       <h1 class="logo-text">Prestige Manor</h1>
     </div>
     <div class="header-right">
-      <a href="dangky.html" class="book-direct">BOOK DIRECT</a>
+      <a href="dat_phong.php" class="book-direct">BOOK DIRECT</a>
     </div>
   </header>
 
   <!-- ================= SIDEBAR ================= -->
   <div id="mySidebar" class="sidebar">
-    <a href="trangchu2.php">HOME</a>
+    <a href="index.php">HOME</a>
     <a href="gioithieuphong.php">ACCOMMODATION</a>
     <a href="dat_phong.php">BOOKING</a>
     <a href="gioithieudichvu.php">SERVICES</a>
@@ -109,7 +109,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
     </div>
     <div class="footer-middle">
       <ul>
-        <li><a href="trangchu2.php">▶ Home</a></li>
+        <li><a href="index.php">▶ Home</a></li>
         <li><a href="gioithieuphong.php">▶ Accommodation</a></li>
         <li><a href="dat_phong.php">▶ Book Direct</a></li>
         <li><a href="nhahang.php">▶ PM Restaurant</a></li>
@@ -125,7 +125,7 @@ $total = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
   <!-- ================= SCRIPT ================= -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="guest.js">
+  <script src="../assets/js/guest.js">
   </script>
 </body>
 

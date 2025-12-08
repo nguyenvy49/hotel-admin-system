@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prestige Manor - Khách sạn</title>
-    <link rel="stylesheet" href="trangchu.css">
+    <link rel="stylesheet" href="../assets/css/trangchu.css">
     
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
@@ -67,7 +67,7 @@
 
     <main class="content">
         <div class="hero-image">
-            <img src="trangchu.jpg" alt="Khu nghỉ dưỡng sang trọng Prestige Manor">
+            <img src="../assets/img/trangchu.jpg" alt="Khu nghỉ dưỡng sang trọng Prestige Manor">
         </div>
     </main>
 
@@ -75,7 +75,7 @@
         <div class="about-container">
             
             <div class="about-image-content">
-                <img src="quynhon.jpg" alt="Infinity Pool View" class="about-img">
+                <img src="../assets/img/quynhon.jpg" alt="Infinity Pool View" class="about-img">
             </div>
 
             <div class="about-text-content">
@@ -115,17 +115,17 @@
 
         <div class="room-gallery-container">
             <div class="room-gallery-item wide-left">
-                <img src="single.jpg" alt="Single Room">
+                <img src="../assets/img/single.jpg" alt="Single Room">
                 <a href="#" class="btn-room-select btn-room-select-1">Single room</a>
             </div>
 
             <div class="room-gallery-item wide-right">
-                <img src="double.jpg" alt="Twin Room">
+                <img src="../assets/img/double.jpg" alt="Twin Room">
                 <a href="#" class="btn-room-select btn-room-select-2">Twin room</a>
             </div>
 
             <div class="room-gallery-item wide-bottom">
-                <img src="vip.jpg" alt="VIP Room">
+                <img src="../assets/img/vip.jpg" alt="VIP Room">
                 <a href="#" class="btn-room-select btn-room-select-3">VIP room</a>
             </div>
         </div>
@@ -140,7 +140,7 @@
     <section class="book-direct-section">
         <div class="book-direct-container">
             <div class="direct-image">
-                <img src="booktc.jpg" alt="Prestige Manor Leather Book">
+                <img src="../assets/img/booktc.jpg" alt="Prestige Manor Leather Book">
             </div>
             
             <div class="direct-content">
@@ -161,7 +161,7 @@
     </div>
     <div class="footer-middle">
         <ul>
-        <li><a href="trangchu2.php">▶ Home</a></li>
+        <li><a href="index.php">▶ Home</a></li>
         <li><a href="gioithieuphong.php">▶ Accommodation</a></li>
         <li><a href="dat_phong.php">▶ Book Direct</a></li>
         <li><a href="nhahang.php">▶ PM Restaurant</a></li>
@@ -178,6 +178,6 @@
   <!-- ================= SCRIPT ================= -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="guest.js"></script>
+  <script src="../assets/js/guest.js"></script>
 </body>
 </html>
