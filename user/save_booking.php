@@ -176,12 +176,14 @@ try {
     // NẾU TỚI ĐÂY MÀ KHÔNG LỖI → COMMIT
     $conn->commit();
 
-    endJSON([
-        "success" => true,
-        "message" => "Đặt phòng thành công!",
-        "ma_hoa_don" => $ma_hoa_don,
-        "ma_dat_phong" => $ma_dat_phong
-    ]);
+endJSON([
+    "success" => true,
+    "message" => "Đặt phòng thành công!",
+    "ma_hoa_don" => $ma_hoa_don,
+    "ma_dat_phong" => $ma_dat_phong,
+    "tong_tien" => $tong_tien
+]);
+
 
 } catch (Exception $e) {
 

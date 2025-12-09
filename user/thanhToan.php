@@ -113,10 +113,18 @@
       <div class="cancel-box">
         <h3>Cancellation Policy</h3>
         <p>Free cancellation up to 48 hours before arrival.</p>
-      </div>
+      </div>  
 
       <h3>Payment Options</h3>
-      <label class="payment-choice"><input type="radio" name="payment" checked> 💳 Pay at counter</label>
+
+      <label class="payment-choice">
+          <input type="radio" name="payment" value="counter" checked> 💵 Pay at counter
+      </label>
+
+      <label class="payment-choice">
+          <input type="radio" name="payment" value="vnpay"> 🌐 VNPay (Pay 20% deposit)
+      </label>
+
 
       <div class="book-box">
         <p class="price-total" id="totalDisplay">0 ₫</p>
@@ -223,29 +231,44 @@ document.getElementById("bookNow").onclick = async (e) => {
         return;
     }
 
-    let payload = {
-        checkin:  checkin,
-        checkout: checkout,
-        rooms:    rooms,
-        services: services
-    };
+    let method = document.querySelector("input[name='payment']:checked").value;
 
+    // gọi backend lưu booking
     let res = await fetch("save_booking.php", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(payload)
+        body: JSON.stringify({
+            checkin, checkout, rooms, services
+        })
     });
 
     let d = await res.json();
-    console.log("Booking response:", d);
 
-    if (d.success) {
-        // 🔥 FIXED redirect
-        window.location.href = "hoa_don.php?ma=" + d.ma_hoa_don;
-    } else {
+    if (!d.success) {
         alert(d.message);
+        return;
     }
+
+    // Nếu trả tại quầy
+    if (method === "counter") {
+        window.location.href = "hoa_don.php?ma=" + d.ma_hoa_don;
+        return;
+    }
+
+    // Nếu VNPay cọc
+    let total = Number(d.tong_tien);
+
+    if (!total || isNaN(total)) {
+        alert("Lỗi hệ thống: không lấy được tổng tiền!");
+        return;
+    }
+
+    let deposit = Math.max(5000, Math.round(total * 0.5)); // Cọc 50%, min 5.000đ
+
+    window.location.href =
+        `vnpay_create.php?hoa_don=${d.ma_hoa_don}&amount=${deposit}`;
 };
+
 </script>
 
 </body>
