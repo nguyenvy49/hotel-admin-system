@@ -112,72 +112,69 @@
 </script>
     <div class="signin-box">
         <h2>Sign in</h2>
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
+    $ho = trim($_POST['firstname']);
+    $ten = trim($_POST['name']);
+    $sdt = trim($_POST['phone']);
+    $ngay_sinh = $_POST['date'];
+    $email = trim($_POST['email']);
+    $password_raw = $_POST['password'];
 
-        <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
-            $ho = trim($_POST['firstname']);
-            $ten = trim($_POST['name']);
-            $sdt = trim($_POST['phone']);
-            $ngay_sinh = $_POST['date'];
-            $email = trim($_POST['email']);
-            $password_raw = $_POST['password'];
+    $error = '';
 
-            $error = '';
+    // === KIỂM TRA DỮ LIỆU  ===
+    if (!preg_match("/^[\p{L}\s]+$/u", $ho) || !preg_match("/^[\p{L}\s]+$/u", $ten)) {
+        $error = "Họ và tên chỉ được chứa chữ cái và khoảng trắng.";
+    }
+    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Email không hợp lệ.";
+    }
+    else {
+        $dob = new DateTime($ngay_sinh);
+        $today = new DateTime();
+        $age = $today->diff($dob)->y;
+        if ($dob > $today) $error = "Ngày sinh không thể ở tương lai.";
+        elseif ($age < 13) $error = "Bạn phải từ 13 tuổi trở lên.";
+    }
+    if (!$error && strlen($password_raw) < 8) {
+        $error = "Mật khẩu phải ít nhất 8 ký tự.";
+    }
+    if (!$error && !preg_match('/[!@#$%^&*(),.?":{}|<>]/', $password_raw)) {
+        $error = "Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt.";
+    }
 
-            // 🧩 Kiểm tra họ tên chỉ có chữ
-            if (!preg_match("/^[\p{L}\s]+$/u", $ho) || !preg_match("/^[\p{L}\s]+$/u", $ten)) {
-                $error = "Họ và tên chỉ được chứa ký tự chữ cái (không có số hoặc ký tự đặc biệt).";
-            }
-            // 📧 Kiểm tra email hợp lệ
-            elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $error = "Email không hợp lệ. Vui lòng nhập đúng định dạng (ví dụ: ten@gmail.com).";
-            }
-            // 📅 Kiểm tra ngày sinh hợp lý (>=13 tuổi và không vượt quá hiện tại)
-            else {
-                $dob = new DateTime($ngay_sinh);
-                $today = new DateTime();
-                $age = $today->diff($dob)->y;
-                if ($dob > $today) {
-                    $error = "Ngày sinh không thể ở tương lai.";
-                } elseif ($age < 13) {
-                    $error = "Bạn phải từ 13 tuổi trở lên mới được đăng ký.";
-                }
-            }
-            // 🔒 Kiểm tra mật khẩu
-            if (!$error) {
-                if (strlen($password_raw) < 8) {
-                    $error = "Mật khẩu phải đủ ít nhất 8 ký tự.";
-                } elseif (!preg_match('/[!@#$%^&*(),.?":{}|<>]/', $password_raw)) {
-                    $error = "Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt (ví dụ: ! @ # $ % ^ & * ( ) , . ?).";
-                }
-            }
+    if ($error) {
+        echo '<div class="alert alert-danger">'.$error.'</div>';
+    } else {
+        // === SỬ DỤNG PREPARED STATEMENT (AN TOÀN ) ===
+        $mat_khau = password_hash($password_raw, PASSWORD_DEFAULT);
 
-            if ($error) {
-                echo '<div class="alert alert-danger">'.$error.'</div>';
+        // Kiểm tra email trùng
+        $stmt = $conn->prepare("SELECT ma_khach_hang FROM khach_hang WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            echo '<div class="alert alert-danger">Email này đã được đăng ký!</div>';
+        } else {
+            $stmt2 = $conn->prepare("INSERT INTO khach_hang (ho, ten, sdt, ngay_sinh, email, mat_khau) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt2->bind_param("ssssss", $ho, $ten, $sdt, $ngay_sinh, $email, $mat_khau);
+
+            if ($stmt2->execute()) {
+                echo '<div class="alert alert-success">Đăng ký thành công! Đang chuyển về trang chủ...</div>';
+                echo '<script>setTimeout(() => window.location="trangchu2.php", 1500);</script>';
             } else {
-                $mat_khau = password_hash($password_raw, PASSWORD_DEFAULT);
-
-                // Kiểm tra email trùng
-                $check_email = "SELECT * FROM khach_hang WHERE email = '$email'";
-                $result = $conn->query($check_email);
-
-                if ($result->num_rows > 0) {
-                    echo '<div class="alert alert-danger">Email này đã được đăng ký. Vui lòng dùng email khác.</div>';
-                } else {
-                    $sql = "INSERT INTO khach_hang (ho, ten, sdt, ngay_sinh, email, mat_khau)
-                            VALUES ('$ho', '$ten', '$sdt', '$ngay_sinh', '$email', '$mat_khau')";
-
-                    if ($conn->query($sql) === TRUE) {
-                        echo '<div class="alert alert-success">Đăng ký thành công! Đang chuyển hướng...</div>';
-                        echo '<script>setTimeout(function(){ window.location.href = "trangchu2.php"; }, 1500);</script>';
-                    } else {
-                        echo '<div class="alert alert-danger">Lỗi: '.$conn->error.'</div>';
-                    }
-                }
+                echo '<div class="alert alert-danger">Lỗi hệ thống, vui lòng thử lại sau!</div>';
             }
+            $stmt2->close();
         }
-        ?>
-
+        $stmt->close();
+    }
+}
+?>
+        
         <form method="POST" action="">
             <div class="form-grid">
                 <input type="text" name="firstname" placeholder="Họ*" pattern="[\p{L}\s]+" title="Chỉ được nhập chữ cái" required>
@@ -198,7 +195,6 @@
 
         <p>Have an account? <a href="login.php">Login</a></p>
     </div>
-<!-- Thay thế phần JS cuối trang bằng đoạn này -->
 <script>
   // Toggle sidebar
   function toggleMenu() {

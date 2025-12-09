@@ -194,196 +194,534 @@ if (isset($_GET['fragment']) && $_GET['fragment'] === '1') {
         exit;
     }
 
-    // ---------- FRAGMENT: CUSTOMERS ----------
-    if ($page === 'customers') {
-        // chú ý: bảng khach_hang có: ma_khach_hang, ho, ten, sdt, email, ...
-        $q = $conn->query("SELECT ma_khach_hang, ho, ten, email, sdt FROM khach_hang ORDER BY ma_khach_hang DESC LIMIT 200");
-        ?>
-        <div class="p-6">
-          <h2 class="text-2xl font-semibold mb-4">Danh sách khách hàng</h2>
-          <div class="bg-white rounded-lg shadow overflow-auto table-beauty">
-            <table class="min-w-full">
-              <thead>
-                <tr>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Mã</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Họ & Tên</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">SĐT</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php while ($r = $q->fetch_assoc()) : 
-                  $full = trim($r['ho'].' '.$r['ten']);
-                ?>
-                  <tr>
-                    <td class="px-6 py-4 whitespace-nowrap"><?= htmlspecialchars($r['ma_khach_hang']) ?></td>
-                    <td class="px-6 py-4 whitespace-nowrap"><?= htmlspecialchars($full) ?></td>
-                    <td class="px-6 py-4 whitespace-nowrap"><?= htmlspecialchars($r['email']) ?></td>
-                    <td class="px-6 py-4 whitespace-nowrap"><?= htmlspecialchars($r['sdt']) ?></td>
-                  </tr>
-                <?php endwhile; ?>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <?php
-        exit;
-    }
+ // ---------- FRAGMENT: CUSTOMERS ----------
+if($page=='customers'){
+  //lay danh sach khach hang
+  $q = $conn ->query("
+  SELECT nv.ma_khach_hang,nv.ho,nv.ten,nv.ngay_sinh,nv.sdt,nv.ngay_dang_ky,nv.email
+  FROM khach_hang nv
+  ");
+  ?>
+  <div class="p-6">
+    <div class ="flex justify-between items-center mb-4">
+      <a href="quanlikhachhang/add_khachhang.php"
+     class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+     +Thêm khách hàng
+</a>
+  </div>
+  <div class="bg-white rounded-lg shadow overflow-auto table-beauty">
+        <table class="min-w-full">
+          <thead>
+<tr>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Mã</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Họ</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tên</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ngày sinh</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Số điện thoại</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email </th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ngày đăng kí </th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Hành động </th>
 
-    // ---------- FRAGMENT: NHANVIEN ----------
-    if ($page === 'nhanvien') {
-        // bảng nhan_vien: ma_nhan_vien, ho_ten, ma_chuc_vu (tham chiếu chuc_vu)
-        $q = $conn->query("
-            SELECT nv.ma_nhan_vien, nv.ho_ten, cv.ten_chuc_vu
-            FROM nhan_vien nv
-            LEFT JOIN chuc_vu cv ON nv.ma_chuc_vu = cv.ma_chuc_vu
-            ORDER BY nv.ma_nhan_vien DESC
-            LIMIT 200
-        ");
-        ?>
-        <div class="p-6">
-          <h2 class="text-2xl font-semibold mb-4">Nhân viên</h2>
-          <div class="bg-white rounded-lg shadow overflow-auto table-beauty">
-            <table class="min-w-full">
-              <thead>
-                <tr>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Mã</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Họ & Tên</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Chức vụ</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php while ($r = $q->fetch_assoc()) : ?>
-                  <tr>
-                    <td class="px-6 py-4"><?= htmlspecialchars($r['ma_nhan_vien']) ?></td>
-                    <td class="px-6 py-4"><?= htmlspecialchars($r['ho_ten']) ?></td>
-                    <td class="px-6 py-4"><?= htmlspecialchars($r['ten_chuc_vu'] ?? '—') ?></td>
-                  </tr>
-                <?php endwhile; ?>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <?php
-        exit;
-    }
+</tr>
+</thead>
+<tbody>
+  <?php while($r=$q->fetch_assoc()):?>
+    <tr>
+                      <td class="px-6 py-4"><?= htmlspecialchars($r['ma_khach_hang']) ?></td>
+                <td class="px-6 py-4"><?= htmlspecialchars($r['ho']) ?></td>
+                 <td class="px-6 py-4"><?= htmlspecialchars($r['ten']) ?></td>
+                 <td class="px-6 py-4"><?= htmlspecialchars($r['ngay_sinh']) ?></td>
+               <td class="px-6 py-4"><?= htmlspecialchars($r['sdt']) ?></td>
+               <td class="px-6 py-4"><?= htmlspecialchars($r['email']) ?></td>
+                    <td class="px-6 py-4"><?= htmlspecialchars($r['ngay_dang_ky']) ?></td>
 
-    // ---------- FRAGMENT: PHONG ----------
-    if ($page === 'phong') {
-        // bảng phong: ma_phong, so_phong, ma_loai_phong, trang_thai
-        // join loai_phong để hiển thị tên loại
-        $q = $conn->query("
-          SELECT p.ma_phong, p.so_phong, p.trang_thai, lp.ten_loai_phong
-          FROM phong p
-          LEFT JOIN loai_phong lp ON p.ma_loai_phong = lp.ma_loai_phong
-          ORDER BY p.so_phong + 0 ASC, p.so_phong ASC
-        ");
-        ?>
-        <div class="p-6">
-          <h2 class="text-2xl font-semibold mb-4">Quản lý phòng</h2>
-          <div class="grid grid-cols-3 gap-4">
-            <?php while ($r = $q->fetch_assoc()) : ?>
-              <div class="bg-white p-4 rounded-lg shadow">
-                <div class="flex justify-between items-center">
-                  <div>
-                    <h3 class="font-bold">Phòng <?= htmlspecialchars($r['so_phong']) ?> (<?= htmlspecialchars($r['ten_loai_phong'] ?? '—') ?>)</h3>
-                    <p class="mt-2 text-sm text-gray-600">Mã: <?= htmlspecialchars($r['ma_phong']) ?></p>
-                  </div>
-                  <div>
-                    <?= room_badge($r['trang_thai']) ?>
-                  </div>
-                </div>
-              </div>
+                <td class="px-6 py-4 flex gap-3">
+                  <a href="quanlikhachhang/delete_khachhang.php?ma_khach_hang=<?= $r['ma_khach_hang'] ?>"
+                     onclick="return confirm('Xóa khách hàng này?');"
+                     class="text-red-600 hover:text-red-800 font-semibold">
+                    Xóa
+                  </a>
+                   <a href="quanlikhachhang/edit_khachhang.php?ma_khach_hang=<?= $r['ma_khach_hang'] ?>"
+                     onclick="return confirm('Sửa khách hàng này?');"
+                     class="text-red-600 hover:text-red-800 font-semibold">
+                    Sửa
+                  </a>
+                </td>
+              </tr>
             <?php endwhile; ?>
-          </div>
-        </div>
-        <?php
-        exit;
-    }
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-    // ---------- FRAGMENT: DATPHONG ----------
-    if ($page === 'datphong') {
-        // dat_phong: ma_dat_phong, ma_khach_hang, ma_phong, ngay_dat, trang_thai
-        $q = $conn->query("
-          SELECT dp.ma_dat_phong, dp.ma_khach_hang, dp.ma_phong, dp.ngay_dat, dp.trang_thai
-          FROM dat_phong dp
-          ORDER BY dp.ma_dat_phong DESC
-          LIMIT 100
-        ");
-        ?>
-        <div class="p-6">
-          <h2 class="text-2xl font-semibold mb-4">Đặt phòng</h2>
-          <div class="bg-white rounded-lg shadow overflow-auto table-beauty">
-            <table class="min-w-full">
-              <thead>
-                <tr>
-                  <th class="px-6 py-3">Mã</th>
-                  <th class="px-6 py-3">Mã KH</th>
-                  <th class="px-6 py-3">Mã phòng</th>
-                  <th class="px-6 py-3">Ngày đặt</th>
-                  <th class="px-6 py-3">Trạng thái</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php while ($r = $q->fetch_assoc()) : ?>
-                  <tr>
-                    <td class="px-6 py-4"><?= htmlspecialchars($r['ma_dat_phong']) ?></td>
-                    <td class="px-6 py-4"><?= htmlspecialchars($r['ma_khach_hang']) ?></td>
-                    <td class="px-6 py-4"><?= htmlspecialchars($r['ma_phong']) ?></td>
-                    <td class="px-6 py-4"><?= htmlspecialchars($r['ngay_dat']) ?></td>
-                    <td class="px-6 py-4"><?= room_badge($r['trang_thai']) ?></td>
-                  </tr>
-                <?php endwhile; ?>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <?php
-        exit;
-    }
+    <?php
+    exit;
+}
+   // ---------- FRAGMENT: NHANVIEN ----------
+if ($page === 'nhanvien') {
 
-    // ---------- FRAGMENT: DICHVU ----------
-   if ($page === 'dichvu') {
-    // dich_vu: ma_dich_vu, ten_dich_vu, don_gia
-    $q = $conn->query("SELECT ma_dich_vu, ten_dich_vu, don_gia FROM dich_vu ORDER BY ma_dich_vu ASC");
+    // Lấy danh sách nhân viên + chức vụ
+    $q = $conn->query("
+        SELECT nv.ma_nhan_vien, nv.ho_ten, cv.ten_chuc_vu
+        FROM nhan_vien nv
+        LEFT JOIN chuc_vu cv ON nv.ma_chuc_vu = cv.ma_chuc_vu
+        ORDER BY nv.ma_nhan_vien DESC
+        LIMIT 200
+    ");
     ?>
+
     <div class="p-6">
-      <h2 class="text-2xl font-semibold mb-4">Dịch vụ</h2>
-      <div class="grid grid-cols-3 gap-4 mb-8">
-        <?php while ($r = $q->fetch_assoc()) : ?>
-          <div class="bg-white p-4 rounded-lg shadow">
-            <h3 class="font-bold"><?= htmlspecialchars($r['ten_dich_vu']) ?></h3>
-            <p class="mt-2"><?= number_format($r['don_gia'],0,',','.') ?> đ</p>
-          </div>
-        <?php endwhile; ?>
+
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold">Nhân viên</h2>
+
+        <a href="quanlinhanvien/add_nhanvien.php" 
+           class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+          + Thêm nhân viên
+        </a>
       </div>
 
-      <!-- Bảng phiếu sử dụng dịch vụ -->
-      <h2 class="text-2xl font-semibold mb-4 mt-6">Phiếu sử dụng dịch vụ</h2>
       <div class="bg-white rounded-lg shadow overflow-auto table-beauty">
         <table class="min-w-full">
           <thead>
             <tr>
-              <th class="px-6 py-3">Mã SDDV</th>
-              <th class="px-6 py-3">Mã đặt phòng</th>
-              <th class="px-6 py-3">Mã dịch vụ</th>
-              <th class="px-6 py-3">Ngày sử dụng</th>
-              <th class="px-6 py-3">Số lượng</th>
-              <th class="px-6 py-3">Đơn giá</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Mã</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Họ & Tên</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Chức vụ</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Hành động</th>
             </tr>
           </thead>
+
           <tbody>
-            <?php
-            $q2 = $conn->query("SELECT * FROM phieu_su_dung_dich_vu ORDER BY ma_sddv DESC LIMIT 200");
-            while ($r2 = $q2->fetch_assoc()) :
-            ?>
+            <?php while ($r = $q->fetch_assoc()) : ?>
               <tr>
-                <td class="px-6 py-4"><?= htmlspecialchars($r2['ma_sddv']) ?></td>
-                <td class="px-6 py-4"><?= htmlspecialchars($r2['ma_dat_phong']) ?></td>
-                <td class="px-6 py-4"><?= htmlspecialchars($r2['ma_dich_vu']) ?></td>
-                <td class="px-6 py-4"><?= htmlspecialchars($r2['ngay_su_dung']) ?></td>
-                <td class="px-6 py-4"><?= htmlspecialchars($r2['so_luong']) ?></td>
-                <td class="px-6 py-4"><?= number_format($r2['don_gia'],0,',','.') ?> đ</td>
+                <td class="px-6 py-4"><?= htmlspecialchars($r['ma_nhan_vien']) ?></td>
+                <td class="px-6 py-4"><?= htmlspecialchars($r['ho_ten']) ?></td>
+                <td class="px-6 py-4"><?= htmlspecialchars($r['ten_chuc_vu'] ?? '—') ?></td>
+
+                <td class="px-6 py-4 flex gap-3">
+                  <a href="quanlinhanvien/delete_nhanvien.php?ma_nhan_vien=<?= $r['ma_nhan_vien'] ?>"
+                     onclick="return confirm('Xóa nhân viên này?');"
+                     class="text-red-600 hover:text-red-800 font-semibold">
+                    Xóa
+                  </a>
+                   <a href="quanlinhanvien/edit_nhanvien.php?ma_nhan_vien=<?= $r['ma_nhan_vien'] ?>"
+                     onclick="return confirm('Sửa nhân viên này?');"
+                     class="text-red-600 hover:text-red-800 font-semibold">
+                    Sửa
+                  </a>
+                </td>
+              </tr>
+            <?php endwhile; ?>
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+
+    <?php
+    exit;
+}
+
+// ---------- FRAGMENT: PHONG ----------
+if ($page === 'phong') {
+
+    $sql = "
+        SELECT 
+            p.ma_phong,
+            p.so_phong,
+            p.trang_thai,
+            lp.ten_loai_phong,
+            lp.so_nguoi_toi_da,
+            lp.gia_phong
+        FROM phong p
+        JOIN loai_phong lp ON p.ma_loai_phong = lp.ma_loai_phong
+        ORDER BY p.so_phong ASC
+    ";
+
+    $q = $conn->query($sql);
+?>
+
+<div class="p-6">
+
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold text-gray-800">Danh sách phòng</h2>
+        <a href="quanliphong/add_phong.php"
+            class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow font-medium transition">
+            + Thêm phòng
+        </a>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-md overflow-auto table-beauty">
+        <table class="min-w-full">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Số phòng</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Loại phòng</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Số người tối đa</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Giá</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Trạng thái</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Hành động</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php while ($r = $q->fetch_assoc()) : ?>
+                    <tr class="hover:bg-gray-50 transition">
+                        <td class="px-6 py-4 font-semibold">Phòng <?= htmlspecialchars($r['so_phong']) ?></td>
+
+                        <td class="px-6 py-4"><?= htmlspecialchars($r['ten_loai_phong']) ?></td>
+
+                        <td class="px-6 py-4"><?= htmlspecialchars($r['so_nguoi_toi_da']) ?> người</td>
+
+                        <td class="px-6 py-4">
+                            <?= number_format($r['gia_phong'], 0, ',', '.') ?> đ
+                        </td>
+
+                        <td class="px-6 py-4">
+                            <?php
+                                $colors = [
+                                    "Trống" => "bg-green-100 text-green-700",
+                                    "Đã đặt" => "bg-yellow-100 text-yellow-700",
+                                    "Đang dọn dẹp" => "bg-blue-100 text-blue-700",
+                                    "Bảo trì" => "bg-red-100 text-red-700",
+                                ];
+                            ?>
+                            <span class="px-3 py-1 text-sm rounded-xl <?= $colors[$r['trang_thai']] ?>">
+                                <?= $r['trang_thai'] ?>
+                            </span>
+                        </td>
+
+                        <td class="px-6 py-4 flex gap-3">
+                            <a href="quanliphong/edit_phong.php?id=<?= $r['ma_phong'] ?>"
+                                class="text-blue-600 hover:text-blue-800 font-medium">Sửa</a>
+
+                            <a href="quanliphong/delete_phong.php?id=<?= $r['ma_phong'] ?>"
+                                onclick="return confirm('Xóa phòng này?');"
+                                class="text-red-600 hover:text-red-800 font-medium">Xóa</a>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+<?php
+    exit;
+}
+
+ // ---------- FRAGMENT: DATPHONG ----------
+if ($page === 'datphong') {
+
+    $sql = "
+    SELECT 
+        dp.ma_dat_phong,
+        kh.ho,
+        kh.ten,
+        kh.sdt,
+        p.so_phong,
+        lp.ten_loai_phong,
+        dp.ngay_dat,
+        dp.ngay_nhan,
+        dp.ngay_tra,
+        dp.trang_thai
+    FROM dat_phong dp
+    JOIN khach_hang kh ON dp.ma_khach_hang = kh.ma_khach_hang
+    JOIN phong p ON dp.ma_phong = p.ma_phong
+    JOIN loai_phong lp ON p.ma_loai_phong = lp.ma_loai_phong
+    ORDER BY dp.ma_dat_phong DESC
+    ";
+
+    $q = mysqli_query($conn, $sql);
+?>
+    <div class="p-6">
+        
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-semibold">Danh sách đặt phòng</h2>
+            
+            <a href="quanlidatphong/add_datphong.php"
+               class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition">
+               + Thêm đặt phòng
+            </a>
+        </div>
+
+        <div class="bg-white rounded-lg shadow overflow-auto table-beauty">
+            <table class="min-w-full">
+                <thead>
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Mã đặt</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Khách hàng</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phòng</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Loại phòng</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ngày đặt</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nhận phòng</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Trả phòng</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Trạng thái</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Hành động</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <?php 
+                    if ($q && mysqli_num_rows($q) > 0):
+                        while ($r = $q->fetch_assoc()):
+                        $ten_kh = trim($r['ho'] . ' ' . $r['ten']);
+                    ?>
+                        <tr>
+                            <td class="px-6 py-4"><?= $r['ma_dat_phong'] ?></td>
+
+                            <td class="px-6 py-4">
+                                <?= htmlspecialchars($ten_kh) ?><br>
+                                <span class="text-gray-500 text-sm"><?= htmlspecialchars($r['sdt']) ?></span>
+                            </td>
+
+                            <td class="px-6 py-4">Phòng <?= htmlspecialchars($r['so_phong']) ?></td>
+
+                            <td class="px-6 py-4"><?= htmlspecialchars($r['ten_loai_phong']) ?></td>
+
+                            <td class="px-6 py-4"><?= htmlspecialchars($r['ngay_dat']) ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($r['ngay_nhan']) ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($r['ngay_tra']) ?></td>
+
+                            <td class="px-6 py-4">
+                                <?= room_badge($r['trang_thai']) ?>
+                            </td>
+
+                            <td class="px-6 py-4 flex gap-4">
+
+                                <a href="quanlidatphong/edit_datphong.php?id=<?= $r['ma_dat_phong'] ?>"
+                                   class="text-blue-600 hover:underline font-medium">
+                                   Sửa
+                                </a>
+
+                                <a href="quanlidatphong/delete_datphong.php?id=<?= $r['ma_dat_phong'] ?>"
+                                   class="text-red-600 hover:underline font-medium"
+                                   onclick="return confirm('Xóa đặt phòng này?')">
+                                   Xóa
+                                </a>
+
+                            </td>
+                        </tr>
+                    <?php 
+                        endwhile;
+                    else: ?>
+                        <tr><td colspan="9" class="px-6 py-4 text-center">Không có dữ liệu đặt phòng.</td></tr>
+                    <?php endif; ?>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+<?php
+    exit;
+}
+
+
+// ---------- FRAGMENT: DICH VU ----------
+if ($page === 'dichvu') {
+
+    // Lấy danh sách dịch vụ
+    $q = $conn->query("
+        SELECT ma_dich_vu, ten_dich_vu, don_gia
+        FROM dich_vu
+        ORDER BY ma_dich_vu ASC
+    ");
+?>
+
+<div class="p-6">
+
+    <!-- HEADER + NÚT THÊM -->
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold">Quản lý dịch vụ</h2>
+
+        <a href="quanlidichvu/add_dichvu.php"
+           class="px-5 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl shadow">
+           +Thêm dịch vụ
+        </a>
+    </div>
+
+    <!-- DANH SÁCH DỊCH VỤ -->
+    <div>
+        <h3 class="text-xl font-semibold mb-4">Danh sách dịch vụ</h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+
+            <?php while ($r = $q->fetch_assoc()) : ?>
+                <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition relative">
+
+                    <!-- Tên dịch vụ -->
+                    <h3 class="font-bold text-lg text-gray-800">
+                        <?= htmlspecialchars($r['ten_dich_vu']) ?>
+                    </h3>
+
+                    <!-- Giá -->
+                    <p class="mt-2 text-gray-700 font-semibold text-lg">
+                        <?= number_format($r['don_gia'], 0, ',', '.') ?> đ
+                    </p>
+
+                    <!-- Buttons -->
+                    <div class="flex gap-3 mt-4">
+
+                        <!-- Sửa -->
+                        <a href="quanlidichvu/edit_dichvu.php?id=<?= $r['ma_dich_vu'] ?>"
+                           class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm">
+                            Sửa
+                        </a>
+
+                        <!-- Xóa -->
+                        <a onclick="return confirm('Xóa dịch vụ này?')"
+                           href="quanlidichvu/delete_dichvu.php?id=<?= $r['ma_dich_vu'] ?>"
+                           class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm">
+                            Xóa
+                        </a>
+
+                    </div>
+
+                </div>
+            <?php endwhile; ?>
+
+        </div>
+    </div>
+
+
+    <!-- PHIẾU SỬ DỤNG DỊCH VỤ -->
+    <div>
+    <h3 class="text-xl font-semibold mt-10 mb-4">
+        Phiếu sử dụng dịch vụ
+        <a href="quanliphieudichvu/add_sddv.php"
+           class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+           + Thêm mới
+        </a>
+    </h3>
+
+    <div class="bg-white rounded-xl shadow overflow-auto table-beauty">
+        <table class="min-w-full">
+            <thead>
+                <tr class="bg-gray-100 text-gray-600 font-semibold text-sm">
+                    <th class="px-6 py-3 text-left">Mã SDDV</th>
+                    <th class="px-6 py-3 text-left">Mã đặt phòng</th>
+                    <th class="px-6 py-3 text-left">Mã dịch vụ</th>
+                    <th class="px-6 py-3 text-left">Ngày sử dụng</th>
+                    <th class="px-6 py-3 text-left">Số lượng</th>
+                    <th class="px-6 py-3 text-left">Đơn giá</th>
+                    <th class="px-6 py-3 text-center">Hành động</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-sm">
+                <?php
+                $q2 = $conn->query("
+                    SELECT *
+                    FROM phieu_su_dung_dich_vu
+                    ORDER BY ma_sddv DESC
+                    LIMIT 200
+                ");
+
+                if ($q2 && $q2->num_rows > 0):
+                    while ($r2 = $q2->fetch_assoc()):
+                ?>
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-6 py-3"><?= htmlspecialchars($r2['ma_sddv']) ?></td>
+                        <td class="px-6 py-3"><?= htmlspecialchars($r2['ma_dat_phong']) ?></td>
+                        <td class="px-6 py-3"><?= htmlspecialchars($r2['ma_dich_vu']) ?></td>
+                        <td class="px-6 py-3"><?= htmlspecialchars($r2['ngay_su_dung']) ?></td>
+                        <td class="px-6 py-3"><?= htmlspecialchars($r2['so_luong']) ?></td>
+                        <td class="px-6 py-3"><?= number_format($r2['don_gia'], 0, ',', '.') ?> đ</td>
+
+                        <td class="px-6 py-3 text-center">
+                            <a href="quanliphieudichvu/edit_sddv.php?id=<?= $r2['ma_sddv'] ?>"
+                               class="px-3 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">Sửa</a>
+
+                            <a href="quanliphieudichvu/delete_sddv.php?id=<?= $r2['ma_sddv'] ?>"
+                               onclick="return confirm('Xóa phiếu này?')"
+                               class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">Xóa</a>
+                        </td>
+                    </tr>
+
+                <?php endwhile; else: ?>
+                    <tr>
+                        <td colspan="7" class="px-6 py-4 text-center text-gray-500">
+                            Không có dữ liệu phiếu sử dụng dịch vụ.
+                        </td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<?php
+    exit;
+}
+
+   // ---------- FRAGMENT: HOADON ----------
+if ($page === 'hoadon') {
+    $q = $conn->query("
+      SELECT ma_hoa_don, ma_dat_phong, tong_tien, trang_thai, ngay_thanh_toan
+      FROM hoa_don
+      ORDER BY ma_hoa_don DESC
+      LIMIT 100
+    ");
+    ?>
+    <div class="p-6">
+
+      <!-- TITLE + ADD BUTTON -->
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold">Hoá đơn</h2>
+
+        <a href="quanlihoadon/add_hoadon.php"
+           class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+          + Thêm hóa đơn
+        </a>
+      </div>
+
+      <div class="bg-white rounded-lg shadow overflow-auto table-beauty">
+        <table class="min-w-full">
+          <thead>
+            <tr>
+              <th class="px-6 py-3">Mã</th>
+              <th class="px-6 py-3">Mã đặt phòng</th>
+              <th class="px-6 py-3">Tổng tiền</th>
+              <th class="px-6 py-3">Trạng thái</th>
+              <th class="px-6 py-3">Ngày TT</th>
+              <th class="px-6 py-3">Hành động</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <?php while ($r = $q->fetch_assoc()) : ?>
+              <tr>
+                <td class="px-6 py-4"><?= htmlspecialchars($r['ma_hoa_don']) ?></td>
+                <td class="px-6 py-4"><?= htmlspecialchars($r['ma_dat_phong']) ?></td>
+                <td class="px-6 py-4">
+                    <?= number_format($r['tong_tien'], 0, ',', '.') ?> đ
+                </td>
+                <td class="px-6 py-4"><?= htmlspecialchars($r['trang_thai']) ?></td>
+                <td class="px-6 py-4"><?= htmlspecialchars($r['ngay_thanh_toan']) ?></td>
+
+                <td class="px-6 py-4 flex gap-3">
+                  <!-- Sửa -->
+                  <a href="quanlihoadon/edit_hoadon.php?id=<?= $r['ma_hoa_don'] ?>"
+                     class="text-blue-600 hover:underline">
+                    Sửa
+                  </a>
+
+                  <!-- Xóa -->
+                  <a href="quanlihoadon/delete_hoadon.php?id=<?= $r['ma_hoa_don'] ?>"
+                     onclick="return confirm('Xác nhận xóa hóa đơn?')"
+                     class="text-red-600 hover:underline">
+                    Xóa
+                  </a>
+                </td>
               </tr>
             <?php endwhile; ?>
           </tbody>
@@ -393,47 +731,6 @@ if (isset($_GET['fragment']) && $_GET['fragment'] === '1') {
     <?php
     exit;
 }
-
-    // ---------- FRAGMENT: HOADON ----------
-    if ($page === 'hoadon') {
-        // hoa_don: ma_hoa_don, ma_dat_phong, tong_tien, trang_thai, ngay_thanh_toan
-        $q = $conn->query("
-          SELECT ma_hoa_don, ma_dat_phong, tong_tien, trang_thai, ngay_thanh_toan
-          FROM hoa_don
-          ORDER BY ma_hoa_don DESC
-          LIMIT 100
-        ");
-        ?>
-        <div class="p-6">
-          <h2 class="text-2xl font-semibold mb-4">Hoá đơn</h2>
-          <div class="bg-white rounded-lg shadow overflow-auto table-beauty">
-            <table class="min-w-full">
-              <thead>
-                <tr>
-                  <th class="px-6 py-3">Mã</th>
-                  <th class="px-6 py-3">Mã đặt phòng</th>
-                  <th class="px-6 py-3">Tổng tiền</th>
-                  <th class="px-6 py-3">Trạng thái</th>
-                  <th class="px-6 py-3">Ngày TT</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php while ($r = $q->fetch_assoc()) : ?>
-                  <tr>
-                    <td class="px-6 py-4"><?= htmlspecialchars($r['ma_hoa_don']) ?></td>
-                    <td class="px-6 py-4"><?= htmlspecialchars($r['ma_dat_phong']) ?></td>
-                    <td class="px-6 py-4"><?= number_format($r['tong_tien'],0,',','.') ?> đ</td>
-                    <td class="px-6 py-4"><?= htmlspecialchars($r['trang_thai']) ?></td>
-                    <td class="px-6 py-4"><?= htmlspecialchars($r['ngay_thanh_toan']) ?></td>
-                  </tr>
-                <?php endwhile; ?>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <?php
-        exit;
-    }
 
     // ---------- FRAGMENT: XULI ----------
     if ($page === 'xuli') {
@@ -527,14 +824,14 @@ $stats_main = get_stats($conn); // dùng cho hiển thị tóm tắt bên sideba
       <h2 class="text-2xl font-bold text-gray-700 mb-6 text-center">Admin Panel</h2>
 
       <nav id="nav" class="space-y-3">
-        <button data-page="home" class="sidebar-item active">🏠 Trang chủ</button>
-        <button data-page="customers" class="sidebar-item">👤 Khách hàng</button>
-        <button data-page="nhanvien" class="sidebar-item">💼 Nhân viên</button>
-        <button data-page="phong" class="sidebar-item">🛏️ Phòng</button>
-        <button data-page="datphong" class="sidebar-item">📅 Đặt phòng</button>
-        <button data-page="dichvu" class="sidebar-item">🧴 Dịch vụ</button>
-        <button data-page="hoadon" class="sidebar-item">🧾 Hoá đơn</button>
-        <button data-page="xuli" class="sidebar-item">🛠️ Xử lý</button>
+        <button data-page="home" class="sidebar-item active">Trang chủ </button>
+        <button data-page="customers" class="sidebar-item"> Khách hàng</button>
+        <button data-page="nhanvien" class="sidebar-item">Nhân viên</button>
+        <button data-page="phong" class="sidebar-item"> Phòng</button>
+        <button data-page="datphong" class="sidebar-item"> Đặt phòng</button>
+        <button data-page="dichvu" class="sidebar-item"> Dịch vụ</button>
+        <button data-page="hoadon" class="sidebar-item"> Hoá đơn</button>
+        <button data-page="xuli" class="sidebar-item"> Xử lý</button>
       </nav>
 
       <div class="mt-6 text-sm text-gray-600">
@@ -602,6 +899,7 @@ window.addEventListener('popstate', (ev) => {
   loadFragment(start, false);
 })();
 </script>
+
 
 </body>
 </html>
