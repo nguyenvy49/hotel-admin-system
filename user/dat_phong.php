@@ -1,189 +1,331 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+session_start();
+include 'config.php';
 
+// Check login
+$isLogged = isset($_SESSION['khach_hang_id']);
+
+// Nhận ngày tìm phòng
+$checkin  = $_GET['checkin']  ?? date('Y-m-d');
+$checkout = $_GET['checkout'] ?? date('Y-m-d', strtotime('+1 day'));
+
+// TRUY VẤN TÌM CÁC LOẠI PHÒNG CÓ PHÒNG KHẢ DỤNG
+$sql = "
+    SELECT 
+        lp.ma_loai_phong,
+        lp.ten_loai_phong,
+        lp.so_nguoi_toi_da,
+        lp.gia_phong,
+
+        (
+            SELECT COUNT(*)
+            FROM phong p
+            WHERE p.ma_loai_phong = lp.ma_loai_phong
+              AND p.trang_thai = 'Trống' 
+              AND p.ma_phong NOT IN (
+                    SELECT dp.ma_phong
+                    FROM dat_phong dp
+                    WHERE 
+                        dp.trang_thai <> 'Hủy'
+                        AND dp.ma_phong IS NOT NULL
+                        AND (
+                                dp.ngay_nhan < '$checkout'
+                            AND dp.ngay_tra  > '$checkin'
+                        )
+              )
+        ) AS phong_trong
+
+    FROM loai_phong lp
+";
+
+
+$result = $conn->query($sql);
+?>
+<!DOCTYPE html>
+<html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hotel Booking</title>
-  <link rel="stylesheet" href="../assets/css/book.css">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700;900&family=Roboto:wght@400;700&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prestige Manor - Booking</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/book.css">
+    <link rel="stylesheet" href="../assets/css/trangchu.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <style>
+        /* Fix cho popup */
+        .confirm-popup {
+            position: fixed;
+            top:0; left:0;
+            width:100%; height:100%;
+            display:none;
+            justify-content:center;
+            align-items:center;
+            background:rgba(0,0,0,0.45);
+            z-index:3000;
+        }
+        .popup-box {
+            width:420px;
+            background:#fff;
+            border-radius:14px;
+            padding:25px;
+            box-shadow:0 6px 20px rgba(0,0,0,0.25);
+            animation:fadeIn 0.3s ease-out;
+        }
+        .popup-btn, .popup-close {
+            width:100%;
+            margin-top:10px;
+            padding:12px;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+        }
+        .popup-btn { background:#A9A48F; color:white; font-weight:bold; }
+        .popup-close { background:#ddd; }
+        @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+    </style>
+
 </head>
 
 <body>
-  <!-- ================= HEADER ================= -->
-  <header class="main-header">
-    <div class="header-left">
-      <button class="menu-toggle" aria-label="Menu" onclick="toggleMenu()">☰</button>
-    </div>
-    <div class="logo-container">
-      <h1 class="logo-text">Prestige Manor</h1>
-    </div>
-  </header>
 
-  <!-- ================= SIDEBAR ================= -->
-  <div id="mySidebar" class="sidebar">
+<!-- ====================== HEADER ======================= -->
+<header class="main-header">
+    <div class="header-left">
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    </div>
+
+    <div class="logo-container">
+        <h1 class="logo-text">Prestige Manor</h1>
+    </div>
+
+    <div class="header-right">
+        <a href="<?= $isLogged ? 'dat_phong.php' : 'login.php' ?>" class="book-direct">BOOK DIRECT</a>
+    </div>
+</header>
+
+<!-- ====================== SIDEBAR ======================= -->
+<div id="mySidebar" class="sidebar">
     <a href="index.php">HOME</a>
     <a href="gioithieuphong.php">ACCOMMODATION</a>
-    <a href="dat_phong.php">BOOKING</a>
+    <a class="active" href="dat_phong.php">BOOKING</a>
     <a href="gioithieudichvu.php">SERVICES</a>
     <a href="lienhe.php">CONTACT US</a>
-    <a href="login.php">LOGIN</a>
-    <a href="dangki.php">SIGN IN</a>
-  </div>
-  <!-- ================= BOOKING BAR ================= -->
-  <div class="booking-bar-wrapper">
+
+    <?php if(!$isLogged): ?>
+        <a href="login.php">LOGIN</a>
+        <a href="dangki.php">SIGN UP</a>
+    <?php else: ?>
+        <a href="logout.php">LOG OUT</a>
+    <?php endif; ?>
+</div>
+
+<!-- ====================== BOOKING BAR ======================= -->
+<div class="booking-bar-wrapper">
     <div class="booking-bar">
-      <div class="booking-item online-info">
-        <p class="label">BOOK ONLINE</p>
-        <p class="guarantee">Guaranteed accommodation</p>
-      </div>
 
-      <div class="booking-item date-input">
-        <p class="label">CHECK-IN</p>
-        <div class="input-field">
-          <input type="text" id="checkin" placeholder="Select date">
-          <i class="fas fa-calendar-alt"></i>
+        <div class="booking-item online-info">
+            <p class="label">BOOK ONLINE</p>
+            <p class="guarantee">Guaranteed reservation</p>
         </div>
-      </div>
 
-      <div class="booking-item date-input">
-        <p class="label">CHECK-OUT</p>
-        <div class="input-field">
-          <input type="text" id="checkout" placeholder="Select date">
-          <i class="fas fa-calendar-alt"></i>
-        </div>
-      </div>
-
-      <!-- Guests dropdown -->
-      <div class="guests-dropdown">
-        <label class="field-label">GUESTS</label>
-        <div class="guests-wrapper">
-          <div class="guests-display" id="guestBox">2 Adults, 0 Children</div>
-
-          <!-- Popup -->
-          <div class="guests-popup" id="guestsPopup" style="display:none;">
-            <div class="room">
-              <div class="room-header">
-                <span>Room 1</span>
-              </div>
-              <div class="controls">
-                <div class="control">
-                  <label>Adults</label>
-                  <button class="minus">-</button>
-                  <span class="count">2</span>
-                  <button class="plus">+</button>
-                </div>
-                <div class="control">
-                  <label>Children</label>
-                  <button class="minus">-</button>
-                  <span class="count">0</span>
-                  <button class="plus">+</button>
-                </div>
-                <div class="control">
-                  <label>Type Room</label>
-                  <select class="room-type">
-                    <option value="Single Room">Single Room</option>
-                    <option value="Twin Room">Twin Room</option>
-                    <option value="VIP Room">VIP Room</option>
-                  </select>
-                </div>
-              </div>
+        <div class="booking-item date-input">
+            <p class="label">CHECK-IN</p>
+            <div class="input-field">
+                <input type="text" id="checkin" value="<?= $checkin ?>">
+                <i class="fas fa-calendar-alt"></i>
             </div>
-            <button class="add-room" id="addRoomBtn">+ ADD A ROOM</button>
-            <button class="done" id="doneBtn">DONE</button>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <section class="select">
-    <h2>Select a Room</h2>
-  </section>
 
-  <!-- ================ROOM OPTION================ -->
-  <section class="card">
-    <div class="left"><img src="../assets/img/single.jpg"></div>
+        <div class="booking-item date-input">
+            <p class="label">CHECK-OUT</p>
+            <div class="input-field">
+                <input type="text" id="checkout" value="<?= $checkout ?>">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+        </div>
+
+        <button class="find-room-btn" onclick="reloadWithDates()">SEARCH</button>
+    </div>
+</div>
+
+<!-- ====================== DANH SÁCH PHÒNG ======================= -->
+
+<?php while ($room = $result->fetch_assoc()): ?>
+<section class="card">
+    <div class="left">
+        <img src="../assets/img/<?= $room['hinh_anh'] ?>" 
+             alt="<?= $room['ten_loai_phong'] ?>"
+             onerror="this.src='../assets/img/default.jpg'">
+    </div>
+
     <div class="right">
-      <h2>Single Room</h2>
-      <p>👥 Up to 2 Guests</p>
-      <p>📐 20 m²</p>
-      <p>🌐 Wi-Fi</p>
-      <p>❄ Air conditioning</p>
-      <div class="bottom">
-        <p class="price">1.399.000 VND</p>
-        <button class="select-btn" data-room-type="Single Room" data-price="1399000"
-          onclick="selectRoom(this)">Select</button>
-      </div>
-    </div>
-  </section>
+        <h2><?= $room['ten_loai_phong'] ?></h2>
 
-  <section class="card">
-    <div class="left"><img src="../assets/img/double.jpg"></div>
-    <div class="right">
-      <h2>Twin Room</h2>
-      <p>👥 Up to 4 Guests</p>
-      <p>📐 25 m²</p>
-      <p>🌐 Wi-Fi</p>
-      <p>❄ Air conditioning</p>
-      <div class="bottom">
-        <p class="price">1.699.000 VND</p>
-        <button class="select-btn" data-room-type="Twin Room" data-price="1699000"
-          onclick="selectRoom(this)">Select</button>
-      </div>
-    </div>
-  </section>
+        <p>👥 Up to <?= $room['so_nguoi_toi_da'] ?> Guests</p>
+        <p><strong>Available: <?= $room['phong_trong'] ?> rooms</strong></p>
 
-  <section class="card">
-    <div class="left"><img src="../assets/img/vip.jpg"></div>
-    <div class="right">
-      <h2>VIP Room</h2>
-      <p>👥 Up to 2 Guests</p>
-      <p>📐 25 m²</p>
-      <p>🌐 Wi-Fi</p>
-      <p>❄ Air conditioning</p>
-      <div class="bottom">
-        <p class="price">2.199.000 VND</p>
-        <button class="select-btn" data-room-type="VIP Room" data-price="2199000"
-          onclick="selectRoom(this)">Select</button>
-      </div>
-    </div>
-  </section>
-  <!--================ MINI BILL POPUP==================== -->
-  <div class="bill-popup" id="billSection" style="display: none;">
-    <h3>Your Bill</h3>
-    <div id="billList"></div>
-    <p><strong>Total:</strong> <span id="totalPrice">0 VND</span></p>
-    <button id="continueBtn">Continue Add Service</button>
-  </div>
+        <!-- GIÁ PHÒNG: lấy từ DB -->
+        <p class="price" data-price="<?= $room['gia_phong'] ?>">
+            <?= number_format($room['gia_phong']) ?> VND / night
+        </p>
 
-  <!--==================FOOTER===================-->
-  <footer class="footer">
+        <!-- Ô chọn số lượng -->
+        <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty(<?= $room['ma_loai_phong'] ?>, -1)">−</button>
+
+            <input type="number" 
+                   id="qty_<?= $room['ma_loai_phong'] ?>" 
+                   class="qty-input"
+                   value="0" 
+                   min="0"
+                   max="<?= $room['phong_trong'] ?>">
+
+            <button class="qty-btn" onclick="changeQty(<?= $room['ma_loai_phong'] ?>, 1)">+</button>
+        </div>
+    </div>
+</section>
+<?php endwhile; ?>
+
+<!-- ================= BUTTON ĐẶT PHÒNG ================== -->
+<div class="submit-area">
+    <button class="continue-btn" onclick="confirmBooking()">Đặt phòng</button>
+</div>
+
+<!-- ====================== POPUP XÁC NHẬN ======================= -->
+<div id="confirmPopup" class="confirm-popup">
+    <div class="popup-box">
+        <h3 style="font-family:'Playfair Display',serif;">Xác nhận đặt phòng</h3>
+
+        <div id="popupContent"></div>
+
+        <button class="popup-btn" onclick="submitBooking()">Xác nhận</button>
+        <button class="popup-close" onclick="closePopup()">Hủy</button>
+    </div>
+</div>
+
+<!-- ====================== FOOTER ======================= -->
+<footer class="footer">
     <div class="footer-left">
-      <p class="brand">Prestige Manor</p>
+        <p class="brand">Prestige Manor</p>
     </div>
-    <div class="footer-middle">
-       <ul>
-        <li><a href="index.php">▶ Home</a></li>
-        <li><a href="gioithieuphong.php">▶ Accommodation</a></li>
-        <li><a href="dat_phong.php">▶ Book Direct</a></li>
-        <li><a href="nhahang.php">▶ PM Restaurant</a></li>
-        <li><a href="spa.php">▶ PM Spa</a></li>
-      </ul>
-    </div>
-    <div class="footer-right">
-      <h3>CONTACT US</h3>
-      <p>▶ Hotline/Zalo: +84 94271</p>
-      <p>▶ Location: Quy Nhon</p>
-    </div>
-  </footer>
-  <!--==============SCRIPT====================-->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="../assets/js/guest.js"></script>
-  <script src="../assets/js/script.js"></script>
-</body>
 
+    <div class="footer-middle">
+        <ul>
+          <li><a href="index.php">▶ Home</a></li>
+          <li><a href="gioithieuphong.php">▶ Accommodation</a></li>
+          <li><a href="dat_phong.php">▶ Book Direct</a></li>
+          <li><a href="nhahang.php">▶ PM Restaurant</a></li>
+          <li><a href="spa.php">▶ PM Spa</a></li>
+        </ul>
+    </div>
+
+    <div class="footer-right">
+        <h3>CONTACT US</h3>
+        <p>▶ Hotline/Zalo: +84 94271</p>
+        <p>▶ Location: Quy Nhơn</p>
+    </div>
+</footer>
+
+<!-- ====================== JAVASCRIPT ======================= -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js"></script>
+<script>
+// Reload trang khi chọn lại ngày
+function reloadWithDates() {
+    let ci = document.getElementById("checkin").value;
+    let co = document.getElementById("checkout").value;
+
+    window.location.href = `dat_phong.php?checkin=${ci}&checkout=${co}`;
+}
+
+// + / – số phòng
+function changeQty(id, step) {
+    let input = document.getElementById("qty_" + id);
+    let max = parseInt(input.max);
+    let value = parseInt(input.value) + step;
+
+    if (value < 0) value = 0;
+    if (value > max) value = max;
+
+    input.value = value;
+}
+
+// Popup xác nhận đặt phòng
+function confirmBooking() {
+
+    let popupHTML = "";
+    let grandTotal = 0;
+    let selectedRooms = [];
+
+    const rooms = document.querySelectorAll(".qty-input");
+
+    rooms.forEach(input => {
+        let qty = parseInt(input.value);
+        if (qty > 0) {
+            let id = input.id.replace("qty_", "");
+            let card = input.closest(".card");
+
+            let roomName = card.querySelector("h2").innerText;
+            let price = Number(card.querySelector(".price").dataset.price);
+
+            let total = qty * price;
+            grandTotal += total;
+
+            selectedRooms.push({ id, roomName, qty, price });
+
+            popupHTML += `
+                <div style="margin-bottom:14px;">
+                    <p style="font-weight:600; font-size:16px;">${roomName}</p>
+                    <p>Giá: ${price.toLocaleString()} VND / đêm</p>
+                    <p>Số phòng: ${qty}</p>
+                    <p style="font-weight:600;">Thành tiền: ${total.toLocaleString()} VND</p>
+                    <hr>
+                </div>
+            `;
+        }
+    });
+
+    if (selectedRooms.length === 0) {
+        alert("Bạn chưa chọn phòng nào!");
+        return;
+    }
+
+    popupHTML += `
+        <p style="text-align:right;font-size:18px;font-weight:700;margin-top:10px;">
+            Tổng cộng: ${grandTotal.toLocaleString()} VND
+        </p>
+    `;
+
+    document.getElementById("popupContent").innerHTML = popupHTML;
+    document.getElementById("confirmPopup").style.display = "flex";
+
+    // Lưu phòng
+    sessionStorage.setItem("selectedRooms", JSON.stringify(selectedRooms));
+    sessionStorage.setItem("totalPriceRooms", grandTotal);
+}
+
+// Đóng popup
+function closePopup() { 
+    document.getElementById("confirmPopup").style.display = "none"; 
+}
+
+// ✨ CHỖ SỬA QUAN TRỌNG NHẤT ✨
+// Sang bước chọn dịch vụ → LƯU checkin/checkout
+function submitBooking() {
+
+    sessionStorage.setItem("checkin",  document.getElementById("checkin").value);
+    sessionStorage.setItem("checkout", document.getElementById("checkout").value);
+
+    window.location.href = "dichVu.php"; 
+}
+
+function toggleMenu() {
+    document.getElementById("mySidebar").classList.toggle("active");
+}
+</script>
+
+
+</body>
 </html>

@@ -170,12 +170,16 @@ function updateBillDisplay() {
       totalService += subtotal;
 
       serviceHtml += `
-        <p>
+        <p class="service-line">
           ${s.name} - ${s.price.toLocaleString()}đ × ${s.quantity}
-          <button onclick="addService('${s.name}', ${s.price})">+</button>
-          <button onclick="decreaseService('${s.name}')">-</button>
-          <button onclick="removeService('${s.name}')">❌</button>
-        </p>`;
+
+          <button class="btn-qty" onclick="addService('${s.name}', ${s.price})">+</button>
+          <button class="btn-qty" onclick="decreaseService('${s.name}')">−</button>
+          <button class="btn-remove" onclick="removeService('${s.name}')">
+            <i class="fas fa-trash"></i>
+          </button>
+        </p>
+              `;
     }
   });
 
