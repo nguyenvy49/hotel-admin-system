@@ -8,9 +8,9 @@ if (!isset($_GET['id'])) {
 
 $id = $_GET['id'];
 
-// Lấy dữ liệu phòng
+// Lấy dữ liệu phòng + giá phòng
 $sql = "
-    SELECT p.*, lp.ten_loai_phong 
+    SELECT p.*, lp.ten_loai_phong, lp.gia_phong
     FROM phong p
     JOIN loai_phong lp ON p.ma_loai_phong = lp.ma_loai_phong
     WHERE p.ma_phong = $id
@@ -28,8 +28,10 @@ if (isset($_POST['submit'])) {
     $so_phong = $_POST['so_phong'];
     $ma_loai_phong = $_POST['ma_loai_phong'];
     $trang_thai = $_POST['trang_thai'];
+    $gia_phong = $_POST['gia_phong']; // thêm lấy giá phòng mới
 
-    $update = "
+    // Cập nhật bảng phòng
+    $update_phong = "
         UPDATE phong
         SET so_phong='$so_phong',
             ma_loai_phong='$ma_loai_phong',
@@ -37,7 +39,14 @@ if (isset($_POST['submit'])) {
         WHERE ma_phong=$id
     ";
 
-    if ($conn->query($update) === TRUE) {
+    // Cập nhật giá phòng trong bảng loại phòng
+    $update_gia = "
+        UPDATE loai_phong
+        SET gia_phong='$gia_phong'
+        WHERE ma_loai_phong='$ma_loai_phong'
+    ";
+
+    if ($conn->query($update_phong) === TRUE && $conn->query($update_gia) === TRUE) {
         header("Location: ../dashboard_home.php?page=phong&msg=updated");
         exit;
     } else {
@@ -98,7 +107,8 @@ if (isset($_POST['submit'])) {
                 }
             ?>
         </select>
-
+        <label>Giá phòng:</label>
+<input type="number" step="0.01" name="gia_phong" value="<?= $phong['gia_phong'] ?>" required>
         <label>Trạng thái:</label>
         <select name="trang_thai">
             <option value="Trống" <?= $phong['trang_thai'] == "Trống" ? "selected" : "" ?>>Trống</option>

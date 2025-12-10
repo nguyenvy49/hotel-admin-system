@@ -2,20 +2,21 @@
 include '../config.php';
 
 if (isset($_POST['submit'])) {
-    $ma_nv = $_POST['ma_nv'];
-    $ten_nv = $_POST['ten_nv'];
+
+    $ten_nv = $_POST['ho_ten'];
     $gioi_tinh = $_POST['gioi_tinh'];
     $ngay_sinh = $_POST['ngay_sinh'];
-    $so_dien_thoai = $_POST['so_dien_thoai'];
+    $so_dien_thoai = $_POST['sdt'];
     $email = $_POST['email'];
     $dia_chi = $_POST['dia_chi'];
-    $ma_chuc_vu = $_POST['ma_chuc_vu']; // INT (foreign key)
+    $ma_chuc_vu = $_POST['ma_chuc_vu'];
 
-    $sql = "INSERT INTO nhan_vien (ma_nv, ten_nv, gioi_tinh, ngay_sinh, so_dien_thoai, email, dia_chi, ma_chuc_vu)
-            VALUES ('$ma_nv', '$ten_nv', '$gioi_tinh', '$ngay_sinh', '$so_dien_thoai', '$email', '$dia_chi', '$ma_chuc_vu')";
+    $sql = "INSERT INTO nhan_vien (ho_ten, gioi_tinh, ngay_sinh, sdt, email, dia_chi, ma_chuc_vu)
+            VALUES ('$ten_nv', '$gioi_tinh', '$ngay_sinh', '$so_dien_thoai', '$email', '$dia_chi', '$ma_chuc_vu')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Thêm nhân viên thành công!'); window.location='nhanvien.php';</script>";
+        header("Location: ../dashboard_home.php?page=nhanvien&msg=added");
+        exit;
     } else {
         echo "Lỗi khi thêm nhân viên: " . $conn->error;
     }
@@ -38,12 +39,12 @@ if (isset($_POST['submit'])) {
 </head>
 <body>
     <h2>🧾 Thêm nhân viên mới</h2>
-    <form method="POST">
+   <form method="POST">
         <label>Mã nhân viên:</label>
-        <input type="text" name="ma_nv" required>
+        <input type="text" name="ma_nhan_vien" required>
 
         <label>Tên nhân viên:</label>
-        <input type="text" name="ten_nv" required>
+        <input type="text" name="ho_ten" required>
 
         <label>Giới tính:</label>
         <select name="gioi_tinh">
@@ -55,7 +56,7 @@ if (isset($_POST['submit'])) {
         <input type="date" name="ngay_sinh">
 
         <label>Số điện thoại:</label>
-        <input type="text" name="so_dien_thoai">
+        <input type="text" name="sdt">
 
         <label>Email:</label>
         <input type="email" name="email">
@@ -68,15 +69,21 @@ if (isset($_POST['submit'])) {
             <option value="">-- Chọn chức vụ --</option>
             <?php
             $result = $conn->query("SELECT ma_chuc_vu, ten_chuc_vu FROM chuc_vu");
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo "<option value='{$row['ma_chuc_vu']}'>{$row['ten_chuc_vu']}</option>";
-                }
+            while ($row = $result->fetch_assoc()) {
+                echo "<option value='{$row['ma_chuc_vu']}'>{$row['ten_chuc_vu']}</option>";
             }
             ?>
         </select>
 
+        <!-- Nút SUBMIT đúng -->
         <button type="submit" name="submit">Thêm nhân viên</button>
-    </form>
+
+        <!-- Nút quay lại -->
+        <a href="../dashboard_home.php?page=nhanvien" 
+           style="padding:10px 15px; background:#ccc; color:#000; border-radius:5px; margin-left:10px; text-decoration:none;">
+            Quay lại
+        </a>
+</form>
+
 </body>
 </html>
