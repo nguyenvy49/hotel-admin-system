@@ -1,27 +1,20 @@
 <?php
-include '../config.php';
+include "../config.php";
 
-// Kiểm tra tham số GET
-if (!isset($_GET['ma_khach_hang'])) {
-    die("❌ Không tìm thấy ID khách hàng.");
-}
+$ma = $_POST["ma_khach_hang"] ?? 0;
+$ma = (int)$ma;
 
-$ma = (int)$_GET['ma_khach_hang'];
-
-// Kiểm tra khách hàng có tồn tại không
-$check = mysqli_query($conn, "SELECT * FROM khach_hang WHERE ma_khach_hang = $ma");
-if (mysqli_num_rows($check) == 0) {
-    die("❌ Khách hàng không tồn tại.");
-}
-
-// Thực hiện xóa
-$sql = "DELETE FROM khach_hang WHERE ma_khach_hang = $ma";
-
-if (mysqli_query($conn, $sql)) {
-    // Quay lại danh sách khách hàng kèm thông báo
-    header("Location: ../dashboard_home.php?page=customers&msg=deleted");
+if ($ma <= 0) {
+    echo json_encode(["status" => false, "msg" => "ID không hợp lệ"]);
     exit;
-} else {
-    echo "❌ Lỗi SQL: " . mysqli_error($conn);
 }
-?>
+
+// XÓA
+$stmt = $conn->prepare("DELETE FROM khach_hang WHERE ma_khach_hang=?");
+$stmt->bind_param("i", $ma);
+
+if ($stmt->execute()) {
+    echo json_encode(["status" => true]);
+} else {
+    echo json_encode(["status" => false, "msg" => "Không thể xóa khách hàng"]);
+}

@@ -39,11 +39,18 @@
                     <td class="px-6 py-3"><?= $r['ngay_dang_ky'] ?></td>
 
                     <td class="px-6 py-3 flex gap-3">
-                        <a href="quanlikhachhang/edit_khachhang.php?ma=<?= $r['ma_khach_hang'] ?>"
-                           class="text-blue-600 hover:underline">Sửa</a>
-                        <a href="quanlikhachhang/delete_khachhang.php?ma=<?= $r['ma_khach_hang'] ?>"
-                           onclick="return confirm('Xóa khách hàng này?')"
-                           class="text-red-600 hover:underline">Xóa</a>
+                        <a href="javascript:void(0)"
+                        onclick="openEditCustomerModal(<?= $r['ma_khach_hang'] ?>)"
+                        class="text-blue-600 hover:underline">
+                        Sửa
+                        </a>
+
+                        <a href="javascript:void(0)"
+                        onclick="openDeleteCustomerModal(<?= $r['ma_khach_hang'] ?>)"
+                        class="text-red-600 hover:underline">
+                        Xóa
+                        </a>
+
                     </td>
                 </tr>
             <?php endwhile; ?>
@@ -114,6 +121,105 @@
     </div>
 </div>
 
+<!-- EDIT CUSTOMER MODAL -->
+<div id="editCustomerModal" 
+     class="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center 
+            z-50 hidden">
+
+    <div class="bg-white p-6 w-[420px] rounded-2xl shadow-xl animate-fadeIn">
+
+        <form id="editCustomerForm">
+
+            <input type="hidden" name="ma_khach_hang" id="edit_ma">
+
+            <div class="space-y-3">
+
+                <div>
+                    <label class="font-medium">Họ:</label>
+                    <input id="edit_ho" name="ho" class="input" required>
+                </div>
+
+                <div>
+                    <label class="font-medium">Tên:</label>
+                    <input id="edit_ten" name="ten" class="input" required>
+                </div>
+
+                <div>
+                    <label class="font-medium">Ngày sinh:</label>
+                    <input id="edit_ngay_sinh" type="date" name="ngay_sinh" class="input">
+                </div>
+
+                <div>
+                    <label class="font-medium">Số điện thoại:</label>
+                    <input id="edit_sdt" name="sdt" class="input" required>
+                </div>
+
+                <div>
+                    <label class="font-medium">Email:</label>
+                    <input id="edit_email" type="email" name="email" class="input" required>
+                </div>
+
+            </div>
+
+            <div class="flex justify-end gap-3 mt-6">
+                <button type="button"
+                        onclick="closeEditCustomerModal()"
+                        class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+                    Hủy
+                </button>
+
+                <button type="submit"
+                        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                    Lưu
+                </button>
+            </div>
+
+            <p id="editCustomerMsg" class="text-red-600 mt-3"></p>
+
+        </form>
+
+    </div>
+</div>
+
+<!-- DELETE CUSTOMER MODAL -->
+<div id="deleteCustomerModal"
+     class="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center 
+            z-50 hidden">
+
+    <div class="bg-white p-6 w-[380px] rounded-2xl shadow-xl animate-fadeIn">
+
+        <h3 class="text-xl font-semibold text-red-600 mb-4">
+            ⚠ Xác nhận xóa khách hàng
+        </h3>
+
+        <p class="text-gray-700 mb-6">
+            Bạn có chắc chắn muốn xóa khách hàng này không?<br>
+            Hành động này không thể hoàn tác.
+        </p>
+
+        <input type="hidden" id="delete_ma">
+
+        <div class="flex justify-end gap-3">
+
+            <button onclick="closeDeleteCustomerModal()"
+                    class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+                Hủy
+            </button>
+
+            <button onclick="submitDeleteCustomer()"
+                    class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                Xóa
+            </button>
+
+        </div>
+
+        <p id="deleteCustomerMsg" class="text-red-600 mt-3"></p>
+
+    </div>
+</div>
+
+
+
 <style>
 .input {
     width: 100%;
@@ -126,67 +232,5 @@
     to { opacity:1; transform:translateY(0); }
 }
 </style>
-<script>
-// GLOBAL MODAL FUNCTIONS (cho mọi fragment)
-
-window.openAddCustomerModal = function () {
-    document.getElementById("addCustomerModal")?.classList.remove("hidden");
-};
-
-window.closeAddCustomerModal = function () {
-    document.getElementById("addCustomerModal")?.classList.add("hidden");
-    document.getElementById("addCustomerForm")?.reset();
-    let msg = document.getElementById("addCustomerMsg");
-    if (msg) msg.innerText = "";
-};
-
-// Submit AJAX thêm khách hàng
-window.submitAddCustomer = async function () {
-    let form = document.getElementById("addCustomerForm");
-    if (!form) return;
-
-    let formData = new FormData(form);
-
-    const res = await fetch("quanlikhachhang/add_khachhang.php", {
-        method: "POST",
-        body: formData
-    });
-
-    const json = await res.json();
-
-   if (json.status === true) {
-
-    closeAddCustomerModal();
-    showToast("Thêm khách hàng thành công!", "success");
-
-    setTimeout(() => {
-        loadPage("customers");
-    }, 600); // đợi animation modal đóng rồi load
-} 
-else {
-    document.getElementById("addCustomerMsg").innerText = json.msg;
-    showToast(json.msg, "error");
-}
-
-};
-
-// Attach submit handler mỗi khi fragment load xong
-async function attachFormEvents() {
-    let form = document.getElementById("addCustomerForm");
-    if (form) {
-        form.onsubmit = (e) => {
-            e.preventDefault();
-            submitAddCustomer();
-        };
-    }
-}
-
-// Hook vào loadPage
-const oldLoadPage = loadPage;
-loadPage = async function(page) {
-    await oldLoadPage(page);
-    attachFormEvents();
-};
-</script>
 
 

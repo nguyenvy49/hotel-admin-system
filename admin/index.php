@@ -66,9 +66,9 @@ include "layout_header.php";
 </div>
 
 <script>
-async function loadPage(page) {
+async function loadPage(pageQuery) {
 
-    // Effect loading nhanh
+    // Hiệu ứng loading
     document.getElementById("mainContent").innerHTML = `
         <div class='loader-box space-y-4'>
             <div class='skeleton w-1/3'></div>
@@ -77,25 +77,44 @@ async function loadPage(page) {
         </div>
     `;
 
-    const res = await fetch(`index.php?fragment=1&page=${page}`);
+    // Render fragment
+    const res = await fetch(`index.php?fragment=1&${pageQuery}`);
     const html = await res.text();
     document.getElementById("mainContent").innerHTML = html;
 
-    // Active sidebar button
+    // Lấy tên trang → lấy sau "page="
+    const pageName = pageQuery.split("&")[0].replace("page=", "");
+
+    // Active sidebar
     document.querySelectorAll(".sidebar-item").forEach(btn =>
-        btn.classList.toggle("active", btn.dataset.page === page)
+        btn.classList.toggle("active", btn.dataset.page === pageName)
     );
+
+    // Bắn event cho module (home.js, phong.js,…)
+    document.dispatchEvent(new CustomEvent("pageLoaded", { 
+        detail: { page: pageName } 
+    }));
 }
 
-// Gán sự kiện click
+/* ============================================================
+   GÁN CLICK SIDEBAR (ĐÃ FIX)
+============================================================ */
 document.querySelectorAll(".sidebar-item").forEach(btn => {
-    btn.onclick = () => loadPage(btn.dataset.page);
+    btn.onclick = () => loadPage(`page=${btn.dataset.page}`);
 });
 
-// Load trang đầu tiên
-loadPage("<?= $page ?>");
+/* ============================================================
+   LOAD TRANG ĐẦU TIÊN (ĐÃ FIX)
+============================================================ */
+loadPage(`page=<?= $page ?>`);
 </script>
 
+
+<script src="../assets/js/home.js"></script>
+<script src="../assets/js/khachhang.js"></script>
+<script src="../assets/js/nhanvien.js"></script>
+<script src="../assets/js/phong.js"></script>
+<script src="../assets/js/dichvu.js"></script>
 
 </body>
 </html>
