@@ -39,6 +39,7 @@
     <a href="gioithieuphong.php">ACCOMMODATION</a>
     <a href="dat_phong.php">BOOKING</a>
     <a href="gioithieudichvu.php">SERVICES</a>
+    <a href="hoa_don_cua_toi.php">MY BILL</a>
     <a href="lienhe.php">CONTACT US</a>
 
     <?php if(!$isLogged) : ?>
