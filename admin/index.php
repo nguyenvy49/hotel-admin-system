@@ -115,6 +115,8 @@ loadPage(`page=<?= $page ?>`);
 <script src="../assets/js/nhanvien.js"></script>
 <script src="../assets/js/phong.js"></script>
 <script src="../assets/js/dichvu.js"></script>
+<script src="../assets/js/datphong.js"></script>
+<script src="../assets/js/hoadon.js"></script>
 
 </body>
 </html>
