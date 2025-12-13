@@ -4,6 +4,7 @@ include "config.php";
 
 $invoice = intval($_GET['vnp_TxnRef'] ?? 0);
 $respCode = $_GET['vnp_ResponseCode'] ?? "";
+$tien_coc = isset($_GET['vnp_Amount']) ? ($_GET['vnp_Amount'] / 100) : 0;
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -167,20 +168,27 @@ $respCode = $_GET['vnp_ResponseCode'] ?? "";
 ========================================================== */
 if ($respCode === "00") {
 
+    /* ===================== LƯU TRẠNG THÁI + TIỀN CỌC ====================== */
     $conn->query("
         UPDATE hoa_don
-        SET trang_thai='Đã đặt cọc', phuong_thuc='VNPay'
+        SET trang_thai='Đã đặt cọc',
+            phuong_thuc='VNPAY',
+            tien_coc = $tien_coc
         WHERE ma_hoa_don = $invoice
     ");
 
     echo "<div class='title-success'>🎉 ĐẶT CỌC THÀNH CÔNG</div>";
-    echo "<div class='subtitle'>Cảm ơn bạn! Prestige Manor đã nhận khoản đặt cọc cho đơn đặt phòng.</div>";
+    echo "<div class='subtitle'>Khoản đặt cọc đã được ghi nhận – Cảm ơn bạn!</div>";
 
-    // Lấy booking
+    /* ===================== LẤY BOOKING ====================== */
     $booking = $conn->query("SELECT ma_dat_phong FROM hoa_don WHERE ma_hoa_don=$invoice")->fetch_assoc();
     $ma_dat_phong = $booking["ma_dat_phong"];
 
-    /* ===================== PHÒNG ====================== */
+    echo "<div class='section'><h3>Thông tin đặt cọc</h3>
+          <div class='item'><b>Số tiền đặt cọc:</b> " . number_format($tien_coc) . "₫</div>
+          </div>";
+
+    /* ===================== DANH SÁCH PHÒNG ====================== */
     echo "<div class='section'><h3>Phòng bạn đã đặt</h3><div class='grid'>";
 
     $rooms = $conn->query("
@@ -200,6 +208,7 @@ if ($respCode === "00") {
             </div>
         ";
     }
+
     echo "</div></div>";
 
     /* ===================== DỊCH VỤ ====================== */
@@ -231,6 +240,7 @@ if ($respCode === "00") {
     echo "<a href='index.php' class='btn'>Quay về trang chủ</a>";
 
 } else {
+    
     /* ==========================================================
        THANH TOÁN THẤT BẠI
     =========================================================== */

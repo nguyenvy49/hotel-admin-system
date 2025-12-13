@@ -55,6 +55,11 @@
             <span>Xử lý</span>
         </button>
 
+                <button class="sidebar-item" data-page="thongke">
+            <i class="ri-settings-3-line text-2xl"></i>
+            <span>Thống kê</span>
+        </button>
+
     </nav>
 </div>
 

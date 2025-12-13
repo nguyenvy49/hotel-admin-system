@@ -35,8 +35,12 @@ function load_view($page, $conn)
             include $base . "quanlixuli/xuli.php";
             break;
 
+        case "thongke":
+             $stats = get_stats($conn);
+            include $base . "dashbroad/thongke.php";
+            break;
+
         default:
-            // ⬅⬅⬅ TẠI ĐÂY: TẠO $stats TRƯỚC KHI GỌI home.php
             $stats = get_stats($conn);
             include $base . "dashbroad/home.php";
             break;
