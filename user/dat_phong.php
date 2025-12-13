@@ -133,7 +133,7 @@ $result = $conn->query($sql);
         <div class="booking-item date-input">
             <p class="label">CHECK-IN</p>
             <div class="input-field">
-                <input type="text" id="checkin" value="<?= $checkin ?>">
+                <input type="text" id="checkin" placeholder="Select date">
                 <i class="fas fa-calendar-alt"></i>
             </div>
         </div>
@@ -141,12 +141,15 @@ $result = $conn->query($sql);
         <div class="booking-item date-input">
             <p class="label">CHECK-OUT</p>
             <div class="input-field">
-                <input type="text" id="checkout" value="<?= $checkout ?>">
+                <input type="text" id="checkout" placeholder="Select date">
                 <i class="fas fa-calendar-alt"></i>
             </div>
         </div>
 
-        <button class="find-room-btn" onclick="reloadWithDates()">SEARCH</button>
+        
+
+        <!-- Nút tìm phòng theo logic hệ thống -->
+        <button class="find-room-btn" onclick="handleFindRoom()">FIND ROOM</button>
     </div>
 </div>
 
@@ -326,6 +329,117 @@ function toggleMenu() {
 }
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
+    // ===== LẤY NGÀY TRONG URL & GÁN LẠI VÀO INPUT =====
+    const url = new URL(window.location.href);
+    const checkinValue = url.searchParams.get("checkin") || "";
+    const checkoutValue = url.searchParams.get("checkout") || "";
+
+    if (checkinValue) document.getElementById("checkin").value = checkinValue;
+    if (checkoutValue) document.getElementById("checkout").value = checkoutValue;
+
+    // ===== LẤY NGÀY HÔM NAY CHUẨN =====
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    // ============================================
+    // FLATPICKR CHO CHECK-IN
+    // ============================================
+    const checkinPicker = flatpickr("#checkin", {
+        minDate: today,
+        dateFormat: "Y-m-d",
+        defaultDate: checkinValue || null,
+        allowInput: true,
+        onChange: function(selectedDates) {
+            if (selectedDates.length > 0) {
+                let ci = selectedDates[0];
+                checkoutPicker.set("minDate", ci);
+
+                let coDate = document.getElementById("checkout").value;
+                if (coDate && new Date(coDate) <= ci) {
+                    document.getElementById("checkout").value = "";
+                }
+            }
+        }
+    });
+
+    // ============================================
+    // FLATPICKR CHO CHECK-OUT
+    // ============================================
+    const checkoutPicker = flatpickr("#checkout", {
+        minDate: checkinValue || today,
+        dateFormat: "Y-m-d",
+        defaultDate: checkoutValue || null,
+        allowInput: true,
+    });
+
+    // ============================================
+    // HÀM CHECK DATE HỢP LỆ
+    // ============================================
+    function isValidDate(dateStr) {
+        const regex = /^\d{4}-\d{2}-\d{2}$/;
+        if (!regex.test(dateStr)) return false;
+
+        const d = new Date(dateStr);
+        if (isNaN(d.getTime())) return false;
+
+        return dateStr === d.toISOString().slice(0, 10);
+    }
+
+    // ============================================
+    // HANDLE FIND ROOM BUTTON
+    // ============================================
+    window.handleFindRoom = function () {
+
+        let checkin = document.getElementById("checkin").value.trim();
+        let checkout = document.getElementById("checkout").value.trim();
+
+        // CHƯA LOGIN → CHUYỂN LOGIN
+        <?php if(!$isLogged): ?>
+            window.location.href = "login.php";
+            return;
+        <?php endif; ?>
+
+        // KIỂM TRA RỖNG
+        if (!checkin || !checkout) {
+            alert("Vui lòng chọn ngày check-in và check-out!");
+            return;
+        }
+
+        // KIỂM TRA ĐỊNH DẠNG
+        if (!isValidDate(checkin)) {
+            alert("Ngày check-in không hợp lệ!");
+            return;
+        }
+
+        if (!isValidDate(checkout)) {
+            alert("Ngày check-out không hợp lệ!");
+            return;
+        }
+
+        const d1 = new Date(checkin);
+        const d2 = new Date(checkout);
+
+        // KIỂM TRA NGÀY
+        if (d1 < today) {
+            alert("Ngày check-in phải ≥ hôm nay!");
+            return;
+        }
+
+        if (d2 <= d1) {
+            alert("Ngày check-out phải lớn hơn check-in!");
+            return;
+        }
+
+        // OK → RELOAD TRANG VỚI PARAM MỚI
+        window.location.href =
+            `dat_phong.php?checkin=${encodeURIComponent(checkin)}&checkout=${encodeURIComponent(checkout)}`;
+    };
+});
+</script>
+
+<script src="../assets/js/guest.js"></script>
 </body>
 </html>
