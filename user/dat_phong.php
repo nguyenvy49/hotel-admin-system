@@ -16,6 +16,7 @@ $sql = "
         lp.ten_loai_phong,
         lp.so_nguoi_toi_da,
         lp.gia_phong,
+        lp.hinh_anh,
 
         (
             SELECT COUNT(*)
@@ -52,6 +53,7 @@ $result = $conn->query($sql);
     <link rel="stylesheet" href="../assets/css/book.css">
     <link rel="stylesheet" href="../assets/css/trangchu.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
         /* Fix cho popup */

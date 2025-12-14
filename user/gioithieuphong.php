@@ -120,9 +120,12 @@ $roomImages = [
 
                 <!-- ẢNH PHÒNG -->
                 <div class="room-image-wrap">
-                    <img src="../assets/img/<?= $img ?>" 
-                         alt="<?= $row['ten_loai_phong'] ?>" 
-                         class="room-image">
+                    <img 
+                            src="../assets/img/<?= htmlspecialchars($row['hinh_anh']) ?>"
+                            alt="<?= htmlspecialchars($row['ten_loai_phong']) ?>" 
+                            class="room-image"
+                            onerror="this.src='../assets/img/default.jpg'"
+                        >
                 </div>
 
                 <!-- THÔNG TIN PHÒNG -->

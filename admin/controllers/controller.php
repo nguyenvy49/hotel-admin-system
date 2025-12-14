@@ -11,6 +11,10 @@ function load_view($page, $conn)
             include $base . "quanliphong/phong.php";
             break;
 
+        case "loaiphong":
+            include $base . "quanliloaiphong/loai_phong.php";
+            break;
+
         case "customers":
             include $base . "quanlikhachhang/customers.php";
             break;

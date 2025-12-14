@@ -35,6 +35,11 @@
             <span>Phòng</span>
         </button>
 
+        <button class="sidebar-item" data-page="loaiphong">
+            <i class="ri-calendar-check-line text-2xl"></i>
+            <span>Loại phòng</span>
+        </button>
+
         <button class="sidebar-item" data-page="datphong">
             <i class="ri-calendar-check-line text-2xl"></i>
             <span>Đặt phòng</span>
